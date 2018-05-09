@@ -1,0 +1,13 @@
+package ar.com.fitlandia.fitlandia;
+
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+
+public class Rutinas extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_rutinas);
+    }
+}
