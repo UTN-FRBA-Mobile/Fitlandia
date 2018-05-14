@@ -2,4 +2,10 @@
     <string name="app_name">fitlandia</string>
     <string name="rutinas">rutinas</string>
     <string name="title_activity_running">activity_running</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Menu</string>
+    <string name="nav_header_subtitle">Fitlandia</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
 </resources>
