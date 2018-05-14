@@ -8,7 +8,7 @@ import android.widget.Button;
 
 import io.paperdb.Paper;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity   extends AppCompatActivity {
     Button Rutinas;
     Button Running;
     Button Selfie;
