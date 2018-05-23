@@ -42,15 +42,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-location:15.0.0'
 
     implementation 'io.paperdb:paperdb:2.6'
+    implementation files('libs/YouTubeAndroidPlayerApi.jar')
 
-    configurations.all {
-        resolutionStrategy.eachDependency { DependencyResolveDetails details ->
-            def requested = details.requested
-            if (requested.group == 'com.android.support') {
-                if (!requested.name.startsWith("multidex")) {
-                    details.useVersion '27.1.1'
-                }
-            }
-        }
-    }
+
 }
