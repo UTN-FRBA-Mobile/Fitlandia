@@ -82,7 +82,14 @@ public class Running extends AppCompatActivity {
             public void handleMessage(Message message) {
                 // This is where you do your work in the UI thread.
                 // Your worker tells you in the message what to do.
-                tvCronometro.setText(message.getData().getString("salida").toString());
+                String msg =message.getData().getString("salida").toString();
+                if(!msg.equals("CHAU"))
+                    tvCronometro.setText(msg);
+                else{
+                    detener(null);
+
+                }
+
             }
         };
 
@@ -104,7 +111,8 @@ public class Running extends AppCompatActivity {
     }
 
     public void iniciar(View view){
-        comenzarTracking();
+        //comenzarTracking();
+        startStep1();
 
         //inicializo el cronometro con la hora guardada en memoria
         Date inicioGuardado = StorageOk.getHoraInicio();
@@ -238,6 +246,7 @@ public class Running extends AppCompatActivity {
         if (isGooglePlayServicesAvailable()) {
 
             //Passing null to indicate that it is executing for the first time.
+            startStep2(null);
 
         } else {
             Toast.makeText(getApplicationContext(), R.string.running_no_google_playservice_available, Toast.LENGTH_LONG).show();

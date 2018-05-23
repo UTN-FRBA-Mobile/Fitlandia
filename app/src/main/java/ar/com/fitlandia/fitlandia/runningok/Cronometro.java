@@ -139,11 +139,21 @@ public class Cronometro implements Runnable
                     // Modifico la UI
                     try
                     {
+
+                        //parque para que pare a los 10min
+
                         Message m = new Message();
                         Bundle b = new Bundle( );
-                        b.putString("salida", salida);
-                        m.setData(b);
-                        escribirenUI.sendMessage(m);
+                        if(minutos ==5){
+                            b.putString("salida", "CHAU");
+                            m.setData(b);
+                            escribirenUI.sendMessage(m);
+                            break;
+                        }else{
+                            b.putString("salida", salida);
+                            m.setData(b);
+                            escribirenUI.sendMessage(m);
+                        }
                         /*escribirenUI.post(new Runnable()
                         {
                             @Override
@@ -152,6 +162,7 @@ public class Cronometro implements Runnable
                                 etiq.setText(salida);
                             }
                         });*/
+
                     }
                     catch (Exception e)
                     {
