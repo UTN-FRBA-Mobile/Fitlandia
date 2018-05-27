@@ -40,4 +40,5 @@ dependencies {
     implementation 'com.google.android.gms:play-services-location:15.0.0'
     implementation 'io.paperdb:paperdb:2.6'
     implementation files('libs/YouTubeAndroidPlayerApi.jar')
+    implementation 'com.theartofdev.edmodo:android-image-cropper:2.5.+'
 }

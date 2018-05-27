@@ -95,14 +95,10 @@ public class Running extends AppCompatActivity {
 
         //inicializo el cronometro con la hora guardada en memoria
         Date inicioGuardado = StorageOk.getHoraInicio();
-        /*cronometro = new Cronometro("Nombre del cronómetro", mHandler, inicioGuardado );
-        cronometro.pause();
-        thCronometro = new Thread(cronometro);
-        thCronometro.start();*/
+
         finalizado = inicioGuardado == null;
 
         if(inicioGuardado!=null) {
-            //tvCronometro.setText(inicioGuardado.toString());
             iniciar(null);
         }
         else{

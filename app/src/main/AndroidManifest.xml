@@ -32,6 +32,9 @@
         <activity android:name=".Selfie"></activity>
 
 
+        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:theme="@style/Base.Theme.AppCompat"/> <!-- optional (needed if default theme has no action bar) -->
+
 
         <!-- Add the service created in services package !-->
         <service android:name=".runningok.LocationMonitoringService" />
