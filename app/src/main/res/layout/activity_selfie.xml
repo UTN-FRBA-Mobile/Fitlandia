@@ -23,4 +23,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Prueba Camara" />
+
+    <TextView
+        android:id="@+id/selfie_estado"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="-" />
+
+    <TextView
+        android:id="@+id/urlfoto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:autoLink="web"
+        android:inputType="textUri"
+        android:text="--" />
 </LinearLayout>

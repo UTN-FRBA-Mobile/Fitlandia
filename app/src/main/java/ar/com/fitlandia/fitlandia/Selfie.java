@@ -12,6 +12,7 @@ import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.QuickContactBadge;
+import android.widget.TextView;
 
 import com.esotericsoftware.kryo.serializers.FieldSerializer;
 import com.theartofdev.edmodo.cropper.CropImage;
@@ -41,6 +42,13 @@ public class Selfie extends AppCompatActivity {
     Button btnAbrirCamara;
     @BindView(R.id.act_selfie)
     LinearLayout linearLayout;
+
+    @BindView(R.id.selfie_estado)
+    TextView estado;
+
+    @BindView(R.id.urlfoto)
+    TextView urlfoto;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,6 +91,8 @@ public class Selfie extends AppCompatActivity {
     }
 
     private void uploadFile(Uri fileUri) {
+
+        estado.setText("Subiendo ...");
         // create upload service client
         //FileUploadService service = ServiceGenerator.createService(FileUploadService.class);
         APIService service = ApiUtils.getAPIService();
@@ -123,6 +133,9 @@ public class Selfie extends AppCompatActivity {
             public void onResponse(Call<FotoModel> call,
                                    Response<FotoModel> response) {
 
+
+                estado.setText("Subido OK...");
+                urlfoto.setText(response.body().getUrl());
                 Utils.mostrarSnackBar(linearLayout, "Guardado en MongoDB!");
             }
 
