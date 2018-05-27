@@ -108,7 +108,7 @@ public class Selfie extends AppCompatActivity {
 
         // MultipartBody.Part is used to send also the actual file name
         MultipartBody.Part body =
-                MultipartBody.Part.createFormData("img", file.getName(), requestFile);
+                MultipartBody.Part.createFormData("foto", file.getName(), requestFile);
 
         // add another part within the multipart request
         String descriptionString = "hello, this is description speaking";

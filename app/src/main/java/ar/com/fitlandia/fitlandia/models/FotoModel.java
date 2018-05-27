@@ -1,3 +1,4 @@
+
 package ar.com.fitlandia.fitlandia.models;
 
 import com.google.gson.annotations.Expose;
@@ -11,6 +12,9 @@ public class FotoModel {
     @SerializedName("nombre")
     @Expose
     private String nombre;
+    @SerializedName("url")
+    @Expose
+    private String url;
     @SerializedName("__v")
     @Expose
     private Integer v;
@@ -29,6 +33,14 @@ public class FotoModel {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public Integer getV() {

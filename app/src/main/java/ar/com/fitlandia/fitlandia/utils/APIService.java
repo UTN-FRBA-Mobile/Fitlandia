@@ -30,7 +30,7 @@ public interface APIService {
     @POST("fotos")
     Call<FotoModel> subirFoto(
             @Part("nombre") RequestBody nombre,
-            @Part MultipartBody.Part img
+            @Part MultipartBody.Part foto
     );
 
 
