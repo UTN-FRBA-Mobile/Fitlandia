@@ -3,13 +3,17 @@ package ar.com.fitlandia.fitlandia;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.QuickContactBadge;
 import android.widget.TextView;
@@ -48,6 +52,9 @@ public class Selfie extends AppCompatActivity {
 
     @BindView(R.id.urlfoto)
     TextView urlfoto;
+
+    @BindView(R.id.imagenok)
+    ImageView imagenok;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,7 +142,17 @@ public class Selfie extends AppCompatActivity {
 
 
                 estado.setText("Subido OK...");
-                urlfoto.setText(response.body().getUrl());
+                FotoModel fotoModel =  response.body();
+                urlfoto.setText(fotoModel.getUrl());
+
+                String base64String = fotoModel.getBase64();
+                String base64Image = base64String.split(";")[1];
+
+                byte[] decodedString = Base64.decode(base64Image, Base64.DEFAULT);
+                Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+
+                imagenok.setImageBitmap(decodedByte);
+
                 Utils.mostrarSnackBar(linearLayout, "Guardado en MongoDB!");
             }
 

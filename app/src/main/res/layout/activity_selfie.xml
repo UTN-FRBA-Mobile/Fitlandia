@@ -37,4 +37,10 @@
         android:autoLink="web"
         android:inputType="textUri"
         android:text="--" />
+
+    <ImageView
+        android:id="@+id/imagenok"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:srcCompat="@android:drawable/btn_dialog" />
 </LinearLayout>
