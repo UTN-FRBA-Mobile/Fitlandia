@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import ar.com.fitlandia.fitlandia.models.Tracking;
 import io.paperdb.Book;
 import io.paperdb.Paper;
 
@@ -37,11 +38,23 @@ public class StorageOk {
         return Paper.book("running-track");
     }
 
-    public  static void setNuevaPosicion(String n, String posicion){
+    /*public  static void setNuevaPosicion(String n, String posicion){
+        getBookRunningTrack().write(n, posicion);
+    }*/
+    public  static void setNuevaPosicionTrack(String n, Tracking posicion){
         getBookRunningTrack().write(n, posicion);
     }
 
-    public  static List<String> getPosiciones(){
+    public  static List<Tracking> getPosicionesTrack(){
+        List<Tracking> posiciones = new ArrayList<>();
+        Tracking p ;
+        for (String key: getBookRunningTrack().getAllKeys()) {
+            p = getBookRunningTrack().read(key);
+            posiciones.add(p);
+        }
+        return posiciones;
+    }
+    /*public  static List<String> getPosiciones(){
         List<String> posiciones = new ArrayList<>();
         String p ;
         for (String key: getBookRunningTrack().getAllKeys()) {
@@ -49,5 +62,5 @@ public class StorageOk {
             posiciones.add(p);
         }
         return posiciones;
-    }
+    }*/
 }

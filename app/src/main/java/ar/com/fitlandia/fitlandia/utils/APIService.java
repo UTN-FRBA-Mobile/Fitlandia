@@ -2,6 +2,7 @@ package ar.com.fitlandia.fitlandia.utils;
 
 import ar.com.fitlandia.fitlandia.models.FotoModel;
 import ar.com.fitlandia.fitlandia.models.LoginModel;
+import ar.com.fitlandia.fitlandia.models.TrackingModel;
 import ar.com.fitlandia.fitlandia.models.UsuarioModel;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -19,6 +20,10 @@ public interface APIService {
 
     @POST("login")
     Call<LoginModel> Login(@Body LoginModel loginModel);
+
+
+    @POST("user/{username}/entrenamientos/vueltaenlaplaza")
+    Call<TrackingModel> nuevaVueltaEnLaPlaza(@Path("username") String username, @Body TrackingModel trackingModel);
 
 
 

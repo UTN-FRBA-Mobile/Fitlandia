@@ -25,20 +25,33 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.common.api.Api;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import ar.com.fitlandia.fitlandia.models.Tracking;
+import ar.com.fitlandia.fitlandia.models.TrackingModel;
 import ar.com.fitlandia.fitlandia.runningok.Cronometro;
 import ar.com.fitlandia.fitlandia.runningok.LocationMonitoringService;
 import ar.com.fitlandia.fitlandia.runningok.StorageOk;
+import ar.com.fitlandia.fitlandia.utils.APIService;
+import ar.com.fitlandia.fitlandia.utils.ApiUtils;
+import ar.com.fitlandia.fitlandia.utils.Utils;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class Running extends AppCompatActivity {
@@ -58,9 +71,11 @@ public class Running extends AppCompatActivity {
     @BindView(R.id.running_tracking_log) TextView tvLogTrack;
 
     @BindView(R.id.running_status) TextView tvEstado;
+    @BindView(R.id.running_layout) LinearLayout running_layout;
 
+    @BindView(R.id.btnrunning_subir) Button btnrunning_subir;
 
-
+    private APIService api;
     Cronometro cronometro;
     boolean finalizado;
     Thread thCronometro;
@@ -71,6 +86,9 @@ public class Running extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_running);
         ButterKnife.bind(this);
+
+
+        api = ApiUtils.getAPIService();
 
         tvCronometro.setText("00:00:00");
         mostrarIniciar();
@@ -104,6 +122,41 @@ public class Running extends AppCompatActivity {
         else{
             mostrarIniciar();
         }
+
+        btnrunning_subir.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //subirAlServer();
+            }
+        });
+    }
+    public void subirAlServer(){
+        TrackingModel trackingModel = new TrackingModel();
+        Tracking t1 = new Tracking();
+        t1.setLat(12.5F);
+        t1.setLng(13.5F);
+
+        Tracking t2 = new Tracking();
+        t2.setLat(14.5F);
+        t2.setLng(15.5F);
+        List<Tracking>  trackings = new ArrayList<>();
+        trackings.add(t1);
+        trackings.add(t2);
+
+        trackingModel.setTracking(trackings);
+
+
+        api.nuevaVueltaEnLaPlaza("fit", trackingModel).enqueue(new Callback<TrackingModel>() {
+            @Override
+            public void onResponse(Call<TrackingModel> call, Response<TrackingModel> response) {
+                Utils.mostrarSnackBar(running_layout, "hola");
+            }
+
+            @Override
+            public void onFailure(Call<TrackingModel> call, Throwable t) {
+                Utils.mostrarSnackBar(running_layout, "err");
+            }
+        });
     }
 
     public void iniciar(View view){
@@ -149,9 +202,27 @@ public class Running extends AppCompatActivity {
         stopService(new Intent(this.getApplicationContext(), LocationMonitoringService.class));
         mAlreadyStartedService = false;
 
-        //TODO: antes deberia guardar en el server las posiciones
-        StorageOk.removePosiciones();
+
+        List<Tracking>  posiciones = StorageOk.getPosicionesTrack();
+        TrackingModel trackingModel = new TrackingModel();
+        trackingModel.setTracking(posiciones);
+
+
+        api.nuevaVueltaEnLaPlaza("fit", trackingModel).enqueue(new Callback<TrackingModel>() {
+            @Override
+            public void onResponse(Call<TrackingModel> call, Response<TrackingModel> response) {
+                StorageOk.removePosiciones();
+                Utils.mostrarSnackBar(running_layout, "Guardado OK");
+            }
+
+            @Override
+            public void onFailure(Call<TrackingModel> call, Throwable t) {
+                Utils.mostrarSnackBar(running_layout, "Error al guardar en server");
+            }
+        });
+
     }
+
 
     private void mostrarIniciar(){
 

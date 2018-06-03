@@ -6,6 +6,7 @@ import android.app.Service;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
@@ -24,6 +25,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import ar.com.fitlandia.fitlandia.models.Tracking;
+
 public class LocationMonitoringService extends Service implements
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
         LocationListener {
@@ -32,7 +35,7 @@ public class LocationMonitoringService extends Service implements
     GoogleApiClient mLocationClient;
     LocationRequest mLocationRequest = new LocationRequest();
 
-    private List<String> posiciones = new ArrayList<String>();
+    //private List<String> posiciones = new ArrayList<String>();
 
 
     public static final String ACTION_LOCATION_BROADCAST = LocationMonitoringService.class.getName() + "LocationBroadcast";
@@ -128,11 +131,15 @@ public class LocationMonitoringService extends Service implements
 
     private void sendMessageToUI(String count, String lat, String lng) {
 
-        String posicion;
-        posicion = count+":"+ lat + ":" + lng;
-        posiciones.add(posicion);
+        //String posicion;
+        //posicion = count+":"+ lat + ":" + lng;
+        //posiciones.add(posicion);
 
-        StorageOk.setNuevaPosicion(count, posicion);
+        Tracking tracking = new Tracking();
+        tracking.setLat(Float.parseFloat(lat));
+        tracking.setLng(Float.parseFloat(lng));
+        //StorageOk.setNuevaPosicion(count, posicion);
+        StorageOk.setNuevaPosicionTrack(count, tracking);
 
         Log.d(TAG, "Sending info...");
 
