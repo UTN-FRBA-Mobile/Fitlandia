@@ -1,0 +1,30 @@
+#login 
+POST /login {username, password}
+
+
+
+
+GET /user
+
+#crear usuario
+POST /user {username, password, peso, altura}
+
+
+#cargar foto de perfil de usuario
+POST /user/{username}/foto data:{foto: imagen}
+GET /user/{username}/foto : return foto
+ej: user/fit/foto
+
+
+
+
+
+
+#lista de entrenamientos: 
+GET /user/{username}/entrenamientos
+
+#nuevo entrenamiento
+POST /user/{username}/entrenamientos data: {tipo: "RUN", comentario}
+return {_id: tipo, fecha, comentario, usuario}
+
+
