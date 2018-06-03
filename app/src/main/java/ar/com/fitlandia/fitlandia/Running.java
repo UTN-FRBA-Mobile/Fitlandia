@@ -33,13 +33,11 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
-import com.google.android.gms.common.api.Api;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import ar.com.fitlandia.fitlandia.models.Tracking;
 import ar.com.fitlandia.fitlandia.models.TrackingModel;
 import ar.com.fitlandia.fitlandia.runningok.Cronometro;
 import ar.com.fitlandia.fitlandia.runningok.LocationMonitoringService;
@@ -131,32 +129,7 @@ public class Running extends AppCompatActivity {
         });
     }
     public void subirAlServer(){
-        TrackingModel trackingModel = new TrackingModel();
-        Tracking t1 = new Tracking();
-        t1.setLat(12.5F);
-        t1.setLng(13.5F);
 
-        Tracking t2 = new Tracking();
-        t2.setLat(14.5F);
-        t2.setLng(15.5F);
-        List<Tracking>  trackings = new ArrayList<>();
-        trackings.add(t1);
-        trackings.add(t2);
-
-        trackingModel.setTracking(trackings);
-
-
-        api.nuevaVueltaEnLaPlaza("fit", trackingModel).enqueue(new Callback<TrackingModel>() {
-            @Override
-            public void onResponse(Call<TrackingModel> call, Response<TrackingModel> response) {
-                Utils.mostrarSnackBar(running_layout, "hola");
-            }
-
-            @Override
-            public void onFailure(Call<TrackingModel> call, Throwable t) {
-                Utils.mostrarSnackBar(running_layout, "err");
-            }
-        });
     }
 
     public void iniciar(View view){
@@ -203,7 +176,7 @@ public class Running extends AppCompatActivity {
         mAlreadyStartedService = false;
 
 
-        List<Tracking>  posiciones = StorageOk.getPosicionesTrack();
+        List<TrackingModel.Tracking>  posiciones = StorageOk.getPosicionesTrack();
         TrackingModel trackingModel = new TrackingModel();
         trackingModel.setTracking(posiciones);
 
