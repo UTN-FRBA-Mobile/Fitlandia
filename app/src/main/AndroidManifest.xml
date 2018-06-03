@@ -2,12 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ar.com.fitlandia.fitlandia">
 
-
     <uses-permission android:name="android.permission.INTERNET" />
 
-    <!-- This permission is need to check the internet connection state !-->
+    <!-- This permission is need to check the internet connection state ! -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
@@ -29,17 +27,32 @@
             android:label="RUTINAS"
         </activity>
         <activity android:name=".Running" />
-        <activity android:name=".Selfie"></activity>
+        <activity android:name=".Selfie" />
+        <activity
+            android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
+            android:theme="@style/Base.Theme.AppCompat" /> <!-- optional (needed if default theme has no action bar) -->
 
 
-        <activity android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
-            android:theme="@style/Base.Theme.AppCompat"/> <!-- optional (needed if default theme has no action bar) -->
-
-
-        <!-- Add the service created in services package !-->
+        <!-- Add the service created in services package ! -->
         <service android:name=".runningok.LocationMonitoringService" />
-        <!--<service android:name=".runningok.CronometroService" />-->
+        <!-- <service android:name=".runningok.CronometroService" /> -->
 
+
+        <!--
+             The API key for Google Maps-based APIs is defined as a string resource.
+             (See the file "res/values/google_maps_api.xml").
+             Note that the API key is linked to the encryption key used to sign the APK.
+             You need a different API key for each encryption key, including the release key that is used to
+             sign the APK for publishing.
+             You can define the keys for the debug and release targets in src/debug/ and src/release/. 
+        -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+
+        <activity
+            android:name=".runningok.RunningMapActivity"
+            android:label="@string/title_activity_running_map"></activity>
     </application>
 
 </manifest>

@@ -41,6 +41,7 @@ import java.util.List;
 import ar.com.fitlandia.fitlandia.models.TrackingModel;
 import ar.com.fitlandia.fitlandia.runningok.Cronometro;
 import ar.com.fitlandia.fitlandia.runningok.LocationMonitoringService;
+import ar.com.fitlandia.fitlandia.runningok.RunningMapActivity;
 import ar.com.fitlandia.fitlandia.runningok.StorageOk;
 import ar.com.fitlandia.fitlandia.utils.APIService;
 import ar.com.fitlandia.fitlandia.utils.ApiUtils;
@@ -124,11 +125,14 @@ public class Running extends AppCompatActivity {
         btnrunning_subir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //subirAlServer();
+                subirAlServer();
             }
         });
     }
     public void subirAlServer(){
+        Intent myIntent = new Intent(Running.this, RunningMapActivity.class);
+        //myIntent.putExtra("key", value); //Optional parameters
+        Running.this.startActivity(myIntent);
 
     }
 

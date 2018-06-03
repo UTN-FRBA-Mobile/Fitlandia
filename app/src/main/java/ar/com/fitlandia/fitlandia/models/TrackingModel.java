@@ -57,7 +57,7 @@ public class TrackingModel {
 
 
 
-    public class Tracking {
+    public static class Tracking {
 
         @SerializedName("_id")
         @Expose
