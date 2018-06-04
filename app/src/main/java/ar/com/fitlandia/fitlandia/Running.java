@@ -74,11 +74,15 @@ public class Running extends AppCompatActivity {
 
     @BindView(R.id.btnrunning_subir) Button btnrunning_subir;
 
+    @BindView(R.id.btnVerRutaEnMapa) Button btnVerRutaEnMapa;
+
     private APIService api;
     Cronometro cronometro;
     boolean finalizado;
     Thread thCronometro;
     Handler mHandler;
+
+    private TrackingModel _ultimoTrackingModel ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,6 +130,16 @@ public class Running extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 subirAlServer();
+            }
+        });
+
+        btnVerRutaEnMapa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent myIntent = new Intent(Running.this, RunningMapActivity.class);
+                myIntent.putExtra("id", _ultimoTrackingModel.getId()); //Optional parameters
+                Running.this.startActivity(myIntent);
+
             }
         });
     }
@@ -190,6 +204,9 @@ public class Running extends AppCompatActivity {
             public void onResponse(Call<TrackingModel> call, Response<TrackingModel> response) {
                 StorageOk.removePosiciones();
                 Utils.mostrarSnackBar(running_layout, "Guardado OK");
+                _ultimoTrackingModel = response.body();
+
+
             }
 
             @Override

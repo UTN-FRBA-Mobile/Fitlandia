@@ -27,6 +27,9 @@ public interface APIService {
 
 
 
+    @GET("vueltaenlaplaza/{id}")
+    Call<TrackingModel> getVueltaEnLaPlaza(@Path("id")String id);
+
     @GET("user/{username}")
     Call<UsuarioModel> getUser(@Path("username") String username);
 

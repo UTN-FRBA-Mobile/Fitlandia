@@ -1,5 +1,6 @@
 package ar.com.fitlandia.fitlandia.runningok;
 
+import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 
@@ -13,15 +14,34 @@ import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 import ar.com.fitlandia.fitlandia.R;
+import ar.com.fitlandia.fitlandia.models.TrackingModel;
+import ar.com.fitlandia.fitlandia.utils.APIService;
+import ar.com.fitlandia.fitlandia.utils.ApiUtils;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class RunningMapActivity extends FragmentActivity implements OnMapReadyCallback {
 
+    private APIService api;
     private GoogleMap mMap;
+    String id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_running_map);
+
+        Intent intent = getIntent();
+        id = intent.getStringExtra("id");
+
+
+        api = ApiUtils.getAPIService();
+
+
+
+
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -44,19 +64,50 @@ public class RunningMapActivity extends FragmentActivity implements OnMapReadyCa
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Add a marker in Sydney and move the camera
         LatLng sydney = new LatLng(-34.584977, -58.393639);
         mMap.addMarker(new MarkerOptions().position(sydney).title("12Km, 150Kcal, 11min"));//.snippet("Distancia: 1.2Km\nCalorias perdidas: 123kcal\nTiempo: 12min"));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 18));
 
+        if(id != null){
+            api.getVueltaEnLaPlaza(id).enqueue(new Callback<TrackingModel>() {
+                @Override
+                public void onResponse(Call<TrackingModel> call, Response<TrackingModel> response) {
+                    TrackingModel trackingModel  =response.body();
 
-        // Instantiates a new Polyline object and adds points to define a rectangle
-        /*PolylineOptions rectOptions = new PolylineOptions()
-                .add(new LatLng(37.35, -122.0))
-                .add(new LatLng(37.45, -122.0))  // North of the previous point, but at the same longitude
-                .add(new LatLng(37.45, -122.2))  // Same latitude, and 30km to the west
-                .add(new LatLng(37.35, -122.2))  // Same longitude, and 16km to the south
-                .add(new LatLng(37.35, -122.0)); */// Closes the polyline.
+                    PolylineOptions rectOptions = new PolylineOptions();
+
+                    TrackingModel.Tracking trackInicial = trackingModel.getTracking().get(0);
+
+                    LatLng inicio = new LatLng(trackInicial.getLat(), trackInicial.getLng());
+                    mMap.addMarker(new MarkerOptions().position(inicio).title("12Km, 150Kcal, 11min"));//.snippet("Distancia: 1.2Km\nCalorias perdidas: 123kcal\nTiempo: 12min"));
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(inicio, 16));
+
+
+                    for (TrackingModel.Tracking trac: trackingModel.getTracking() ) {
+                        rectOptions.add( new LatLng(trac.getLat(), trac.getLng()));
+
+                    }
+
+
+                    Polyline polyline = mMap.addPolyline(rectOptions);
+                }
+
+                @Override
+                public void onFailure(Call<TrackingModel> call, Throwable t) {
+
+                }
+            });
+        }else{
+            cargarDefault();
+        }//fin el se
+
+    }
+    private void cargarDefault(){
+
+        LatLng sydney = new LatLng(-34.584977, -58.393639);
+        mMap.addMarker(new MarkerOptions().position(sydney).title("12Km, 150Kcal, 11min"));//.snippet("Distancia: 1.2Km\nCalorias perdidas: 123kcal\nTiempo: 12min"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 16));
+
         PolylineOptions rectOptions = new PolylineOptions()
                 .add(new LatLng(-34.584977, -58.393639))
                 .add(new LatLng(-34.584988, -58.393715))

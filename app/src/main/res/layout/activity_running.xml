@@ -66,6 +66,12 @@
             android:layout_height="wrap_content"
             android:text="Mapa " />
 
+        <Button
+            android:id="@+id/btnVerRutaEnMapa"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ver en el mapa" />
+
 
     </LinearLayout>
 </LinearLayout>
