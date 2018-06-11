@@ -22,6 +22,9 @@ ej: user/fit/foto
 
 #lista de entrenamientos: 
 GET /user/{username}/entrenamientos
+//busca un tipo especifico
+GET /user/{username}/entrenamientos/{tipo}  
+
 
 #nuevo entrenamiento
 POST /user/{username}/entrenamientos data: {tipo: "RUN", comentario}
