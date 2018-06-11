@@ -1,3 +1,7 @@
+header: 
+Content-Type: application/json
+---------------------------------------------------------
+
 #login 
 POST /login {username, password}
 
@@ -27,7 +31,7 @@ GET /user/{username}/entrenamientos/{tipo}
 
 
 #nuevo entrenamiento
-POST /user/{username}/entrenamientos data: {tipo: "RUN", comentario}
+POST /user/{username}/entrenamientos data: {"tipo": "RUN"}
 return {_id: tipo, fecha, comentario, usuario}
 
 
