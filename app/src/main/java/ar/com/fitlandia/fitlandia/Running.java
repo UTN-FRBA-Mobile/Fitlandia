@@ -29,11 +29,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.esotericsoftware.kryo.serializers.FieldSerializer;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 
@@ -75,9 +78,12 @@ public class Running extends AppCompatActivity {
     @BindView(R.id.running_status) TextView tvEstado;
     @BindView(R.id.running_layout) LinearLayout running_layout;
 
+    @BindView(R.id.progressbar)
+    ProgressBar progressBar;
     @BindView(R.id.btnrunning_subir) Button btnrunning_subir;
 
-    @BindView(R.id.btnVerRutaEnMapa) Button btnVerRutaEnMapa;
+    @BindView(R.id.btnVerRutaEnMapa)
+    ImageView btnVerRutaEnMapa;
 
     private APIService api;
     Cronometro cronometro;
@@ -173,6 +179,11 @@ public class Running extends AppCompatActivity {
 
 
     public void iniciar(View view){
+
+        if(!Utils.tieneActivadoElGePeEse(this)){
+            Utils.mostrarSnackBar(running_layout, "Debe activar el GPS");
+            return;
+        }
         //comenzarTracking();
         startStep1();
 
@@ -216,12 +227,13 @@ public class Running extends AppCompatActivity {
         mAlreadyStartedService = false;
 
         notificationManager.cancel(123);
-
+        progressBar.setVisibility(View.VISIBLE);
 
         List<TrackingModel.Tracking>  posiciones = StorageOk.getPosicionesTrack();
         TrackingModel trackingModel = new TrackingModel();
         trackingModel.setTracking(posiciones);
 
+        tvEstado.setText("Sincronizando ...");
 
         api.nuevaVueltaEnLaPlaza("fit", trackingModel).enqueue(new Callback<TrackingModel>() {
             @Override
@@ -230,12 +242,16 @@ public class Running extends AppCompatActivity {
                 Utils.mostrarSnackBar(running_layout, "Guardado OK");
                 _ultimoTrackingModel = response.body();
 
-
+                btnVerRutaEnMapa.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.INVISIBLE);
+                tvEstado.setText("Detenido");
             }
 
             @Override
             public void onFailure(Call<TrackingModel> call, Throwable t) {
                 Utils.mostrarSnackBar(running_layout, "Error al guardar en server");
+                progressBar.setVisibility(View.INVISIBLE);
+                tvEstado.setText("Detenido");
             }
         });
 
@@ -249,7 +265,7 @@ public class Running extends AppCompatActivity {
 
         tvCronometro.setTextColor(Color.GREEN);
         finalizado = true;
-        tvEstado.setText("Detenido ...");
+        tvEstado.setText("Detenido ");
     }
     private void mostrarDetener(){
         iniciar.setVisibility(View.INVISIBLE);
@@ -295,7 +311,7 @@ public class Running extends AppCompatActivity {
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 */
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, "CHANNEL_ID")
-                .setSmallIcon(R.drawable.ic_ejercicio_24)
+                .setSmallIcon(R.drawable.ic_conejo_corredor_16)
                 .setContentTitle("Fitlandia")
                 .setContentText("Corriendo ...")
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
