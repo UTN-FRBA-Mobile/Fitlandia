@@ -2,6 +2,7 @@ package ar.com.fitlandia.fitlandia;
 
 import android.Manifest;
 import android.app.ActivityManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -19,6 +20,8 @@ import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -81,7 +84,7 @@ public class Running extends AppCompatActivity {
     boolean finalizado;
     Thread thCronometro;
     Handler mHandler;
-
+    NotificationManagerCompat notificationManager;
     private TrackingModel _ultimoTrackingModel ;
 
     @Override
@@ -90,11 +93,14 @@ public class Running extends AppCompatActivity {
         setContentView(R.layout.activity_running);
         ButterKnife.bind(this);
 
+        notificationManager = NotificationManagerCompat.from(this);
 
         api = ApiUtils.getAPIService();
 
         tvCronometro.setText("00:00:00");
         mostrarIniciar();
+
+
 
         inicializarTracking();
 
@@ -121,6 +127,7 @@ public class Running extends AppCompatActivity {
 
         if(inicioGuardado!=null) {
             iniciar(null);
+
         }
         else{
             mostrarIniciar();
@@ -137,18 +144,33 @@ public class Running extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent myIntent = new Intent(Running.this, RunningMapActivity.class);
-                myIntent.putExtra("id", _ultimoTrackingModel.getId()); //Optional parameters
-                Running.this.startActivity(myIntent);
+                if(_ultimoTrackingModel!=null){
+                    myIntent.putExtra("id", _ultimoTrackingModel.getId()); //Optional parameters
+                    Running.this.startActivity(myIntent);
+                }
+
 
             }
         });
+
+
+        //si viene de la notificacoin y le dio stop
+        Intent intent = getIntent();
+        boolean detenerCronometro = intent.getBooleanExtra("EXTRA_NOTIFICATION_ID_DETENER", false);
+        if(detenerCronometro){
+            detener(null);
+        }
     }
+
+
     public void subirAlServer(){
         Intent myIntent = new Intent(Running.this, RunningMapActivity.class);
         //myIntent.putExtra("key", value); //Optional parameters
         Running.this.startActivity(myIntent);
 
     }
+
+
 
     public void iniciar(View view){
         //comenzarTracking();
@@ -192,6 +214,8 @@ public class Running extends AppCompatActivity {
 
         stopService(new Intent(this.getApplicationContext(), LocationMonitoringService.class));
         mAlreadyStartedService = false;
+
+        notificationManager.cancel(123);
 
 
         List<TrackingModel.Tracking>  posiciones = StorageOk.getPosicionesTrack();
@@ -253,6 +277,54 @@ public class Running extends AppCompatActivity {
             mAlreadyStartedService = true;
             //Ends................................................
         }
+        mostrarNotificacion();
+    }
+
+    private void mostrarNotificacion(){
+/*
+        Intent intent = new Intent(this, Running.class);
+        intent.setAction("ACTION_SNOOZE");
+        intent.putExtra("EXTRA_NOTIFICATION_ID", 0);
+        PendingIntent pendingIntent =
+                PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+*/
+/*
+        Intent intent = new Intent(this, Running.class);
+        intent.putExtra("EXTRA_NOTIFICATION_ID", "OK");
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+*/
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, "CHANNEL_ID")
+                .setSmallIcon(R.drawable.ic_ejercicio_24)
+                .setContentTitle("Fitlandia")
+                .setContentText("Corriendo ...")
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                // Set the intent that will fire when the user taps the notification
+                .setContentIntent(getPendingIntentDetener(false))
+                .setOngoing(true)
+                .addAction(R.drawable.ic_detener_24, "Detener", getPendingIntentDetener(true))
+                .setAutoCancel(false);
+
+
+        // notificationId is a unique int for each notification that you must define
+        notificationManager.notify(123, mBuilder.build());
+    }
+
+    private PendingIntent getPendingIntentDetener(boolean detener){
+
+
+        if(detener){
+            Intent intent = new Intent(this, Running.class);
+            intent.putExtra("EXTRA_NOTIFICATION_ID_DETENER", detener);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            return PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        }else{
+            Intent intent = new Intent(this, MainActivity.class);
+            //intent.putExtra("EXTRA_NOTIFICATION_ID_DETENER", detener);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            return PendingIntent.getActivity(this, 0, intent, 0);
+        }
+
 
     }
 
