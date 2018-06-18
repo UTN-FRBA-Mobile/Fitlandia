@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -12,7 +11,7 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="150dp"
         android:layout_gravity="center">
 
         <ImageButton
@@ -20,6 +19,8 @@
             style="@style/AppTheme.running"
             android:onClick="iniciar"
             android:src="@drawable/ic_conejo_96"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:visibility="visible" />
 
 
@@ -27,6 +28,8 @@
             android:id="@+id/running_detener"
             style="@style/AppTheme.running"
             android:onClick="detener"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:src="@drawable/ic_conejo_corredor_96"
             android:visibility="invisible" />
 
@@ -65,6 +68,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Mapa " />
+        <Button
+            android:id="@+id/btnhistorial"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="btnhistorial" />
 
 
 

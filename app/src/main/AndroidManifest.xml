@@ -52,7 +52,8 @@
 
         <activity
             android:name=".runningok.RunningMapActivity"
-            android:label="@string/title_activity_running_map"></activity>
+            android:label="@string/title_activity_running_map" />
+        <activity android:name=".runningok.RunningHistorialActivity"></activity>
     </application>
 
 </manifest>

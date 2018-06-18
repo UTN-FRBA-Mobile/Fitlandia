@@ -47,6 +47,7 @@ import java.util.List;
 import ar.com.fitlandia.fitlandia.models.TrackingModel;
 import ar.com.fitlandia.fitlandia.runningok.Cronometro;
 import ar.com.fitlandia.fitlandia.runningok.LocationMonitoringService;
+import ar.com.fitlandia.fitlandia.runningok.RunningHistorialActivity;
 import ar.com.fitlandia.fitlandia.runningok.RunningMapActivity;
 import ar.com.fitlandia.fitlandia.runningok.StorageOk;
 import ar.com.fitlandia.fitlandia.utils.APIService;
@@ -54,6 +55,7 @@ import ar.com.fitlandia.fitlandia.utils.ApiUtils;
 import ar.com.fitlandia.fitlandia.utils.Utils;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -81,6 +83,16 @@ public class Running extends AppCompatActivity {
     @BindView(R.id.progressbar)
     ProgressBar progressBar;
     @BindView(R.id.btnrunning_subir) Button btnrunning_subir;
+    @BindView(R.id.btnhistorial) Button btnhistorial;
+
+    @OnClick(R.id.btnhistorial)
+    public void verHistorial() {
+        Utils.mostrarSnackBar(running_layout, "FFFF");
+
+        Intent myIntent = new Intent(Running.this, RunningHistorialActivity.class);
+        Running.this.startActivity(myIntent);
+    }
+
 
     @BindView(R.id.btnVerRutaEnMapa)
     ImageView btnVerRutaEnMapa;

@@ -1,5 +1,8 @@
 package ar.com.fitlandia.fitlandia.utils;
 
+import java.util.List;
+
+import ar.com.fitlandia.fitlandia.models.EntrenamientoModel;
 import ar.com.fitlandia.fitlandia.models.FotoModel;
 import ar.com.fitlandia.fitlandia.models.LoginModel;
 import ar.com.fitlandia.fitlandia.models.TrackingModel;
@@ -17,6 +20,9 @@ import retrofit2.http.Path;
 
 public interface APIService {
 
+
+    @GET("user/{username}/entrenamientos/vueltaplaza")
+    Call<List<EntrenamientoModel>> getAllVueltaEnLaPlaza(@Path("username")String username);
 
     @POST("login")
     Call<LoginModel> Login(@Body LoginModel loginModel);

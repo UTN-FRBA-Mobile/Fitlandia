@@ -1,6 +1,7 @@
 package ar.com.fitlandia.fitlandia.utils;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.location.LocationManager;
 import android.support.design.widget.Snackbar;
@@ -16,6 +17,15 @@ public class Utils {
 
     }
 
+
+
+    public static ProgressDialog getProgressBar(Activity activity, String message){
+        ProgressDialog progressBar = new ProgressDialog(activity);
+        progressBar.setMessage(message);
+        progressBar.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressBar.setCancelable(false);
+        return progressBar;
+    }
 
     public static boolean tieneActivadoElGePeEse(Activity activity){
         final LocationManager lm = (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE);
