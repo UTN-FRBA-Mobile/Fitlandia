@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="16dp"
+    android:layout_height="wrap_content"
+    android:padding="5dp"
     >
 
     <android.support.v7.widget.CardView
@@ -14,13 +14,13 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="16dp"
+            android:padding="5dp"
             >
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/iv_sitio"
+                android:id="@+id/iv_run"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginRight="16dp"
@@ -29,18 +29,19 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/tv_nombre"
-                android:layout_toRightOf="@+id/iv_sitio"
+                android:id="@+id/tv_titulo"
+                android:layout_toRightOf="@+id/iv_run"
                 android:layout_alignParentTop="true"
-                android:textSize="30sp"
+                android:textSize="15dp"
                 />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/tv_sitio"
-                android:layout_toRightOf="@+id/iv_sitio"
-                android:layout_below="@+id/tv_nombre"
+                android:id="@+id/tv_descripcion"
+                android:textSize="12dp"
+                android:layout_toRightOf="@+id/iv_run"
+                android:layout_below="@+id/tv_titulo"
                 />
 
         </RelativeLayout>

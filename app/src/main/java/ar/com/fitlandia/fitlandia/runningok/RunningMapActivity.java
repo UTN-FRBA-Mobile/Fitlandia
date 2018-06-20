@@ -14,7 +14,7 @@ import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 import ar.com.fitlandia.fitlandia.R;
-import ar.com.fitlandia.fitlandia.models.TrackingModel;
+import ar.com.fitlandia.fitlandia.models.VueltaEnLaPlazaModel;
 import ar.com.fitlandia.fitlandia.utils.APIService;
 import ar.com.fitlandia.fitlandia.utils.ApiUtils;
 import retrofit2.Call;
@@ -65,21 +65,21 @@ public class RunningMapActivity extends FragmentActivity implements OnMapReadyCa
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 18));
 
         if(id != null){
-            api.getVueltaEnLaPlaza(id).enqueue(new Callback<TrackingModel>() {
+            api.getVueltaEnLaPlaza(id).enqueue(new Callback<VueltaEnLaPlazaModel>() {
                 @Override
-                public void onResponse(Call<TrackingModel> call, Response<TrackingModel> response) {
-                    TrackingModel trackingModel  =response.body();
+                public void onResponse(Call<VueltaEnLaPlazaModel> call, Response<VueltaEnLaPlazaModel> response) {
+                    VueltaEnLaPlazaModel vueltaEnLaPlazaModel =response.body();
 
                     PolylineOptions rectOptions = new PolylineOptions();
 
-                    TrackingModel.Tracking trackInicial = trackingModel.getTracking().get(0);
+                    VueltaEnLaPlazaModel.Tracking trackInicial = vueltaEnLaPlazaModel.getTracking().get(0);
 
                     LatLng inicio = new LatLng(trackInicial.getLat(), trackInicial.getLng());
-                    mMap.addMarker(new MarkerOptions().position(inicio).title("12Km, 150Kcal, 11min"));//.snippet("Distancia: 1.2Km\nCalorias perdidas: 123kcal\nTiempo: 12min"));
+                    mMap.addMarker(new MarkerOptions().position(inicio).title(vueltaEnLaPlazaModel.distanciaEnPalabras()));//.snippet("Distancia: 1.2Km\nCalorias perdidas: 123kcal\nTiempo: 12min"));
                     mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(inicio, 16));
 
 
-                    for (TrackingModel.Tracking trac: trackingModel.getTracking() ) {
+                    for (VueltaEnLaPlazaModel.Tracking trac: vueltaEnLaPlazaModel.getTracking() ) {
                         rectOptions.add( new LatLng(trac.getLat(), trac.getLng()));
 
                     }
@@ -89,7 +89,7 @@ public class RunningMapActivity extends FragmentActivity implements OnMapReadyCa
                 }
 
                 @Override
-                public void onFailure(Call<TrackingModel> call, Throwable t) {
+                public void onFailure(Call<VueltaEnLaPlazaModel> call, Throwable t) {
 
                 }
             });

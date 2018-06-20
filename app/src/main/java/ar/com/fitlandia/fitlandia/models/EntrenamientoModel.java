@@ -12,6 +12,12 @@ public class EntrenamientoModel {
     @SerializedName("tipo")
     @Expose
     private String tipo;
+    @SerializedName("distanciaEnMetros")
+    @Expose
+    private double distanciaEnMetros;
+    @SerializedName("tiempoEnSegundos")
+    @Expose
+    private double tiempoEnSegundos;
     @SerializedName("usuario")
     @Expose
     private String usuario;
@@ -36,6 +42,22 @@ public class EntrenamientoModel {
 
     public void setTipo(String tipo) {
         this.tipo = tipo;
+    }
+
+    public double getDistanciaEnMetros() {
+        return distanciaEnMetros;
+    }
+
+    public void setDistanciaEnMetros(double distanciaEnMetros) {
+        this.distanciaEnMetros = distanciaEnMetros;
+    }
+
+    public double getTiempoEnSegundos() {
+        return tiempoEnSegundos;
+    }
+
+    public void setTiempoEnSegundos(double tiempoEnSegundos) {
+        this.tiempoEnSegundos = tiempoEnSegundos;
     }
 
     public String getUsuario() {

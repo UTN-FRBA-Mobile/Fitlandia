@@ -2,14 +2,12 @@ package ar.com.fitlandia.fitlandia.utils;
 
 import java.util.List;
 
-import ar.com.fitlandia.fitlandia.models.EntrenamientoModel;
 import ar.com.fitlandia.fitlandia.models.FotoModel;
 import ar.com.fitlandia.fitlandia.models.LoginModel;
-import ar.com.fitlandia.fitlandia.models.TrackingModel;
+import ar.com.fitlandia.fitlandia.models.VueltaEnLaPlazaModel;
 import ar.com.fitlandia.fitlandia.models.UsuarioModel;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -21,20 +19,20 @@ import retrofit2.http.Path;
 public interface APIService {
 
 
-    @GET("user/{username}/entrenamientos/vueltaplaza")
-    Call<List<EntrenamientoModel>> getAllVueltaEnLaPlaza(@Path("username")String username);
+    @GET("user/{username}/entrenamientos/vueltaenlaplaza")
+    Call<List<VueltaEnLaPlazaModel>> getAllVueltaEnLaPlaza(@Path("username")String username);
 
     @POST("login")
     Call<LoginModel> Login(@Body LoginModel loginModel);
 
 
     @POST("user/{username}/entrenamientos/vueltaenlaplaza")
-    Call<TrackingModel> nuevaVueltaEnLaPlaza(@Path("username") String username, @Body TrackingModel trackingModel);
+    Call<VueltaEnLaPlazaModel> nuevaVueltaEnLaPlaza(@Path("username") String username, @Body VueltaEnLaPlazaModel vueltaEnLaPlazaModel);
 
 
 
     @GET("vueltaenlaplaza/{id}")
-    Call<TrackingModel> getVueltaEnLaPlaza(@Path("id")String id);
+    Call<VueltaEnLaPlazaModel> getVueltaEnLaPlaza(@Path("id")String id);
 
     @GET("user/{username}")
     Call<UsuarioModel> getUser(@Path("username") String username);

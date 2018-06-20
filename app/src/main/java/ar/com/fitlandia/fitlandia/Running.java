@@ -29,22 +29,19 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.esotericsoftware.kryo.serializers.FieldSerializer;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import ar.com.fitlandia.fitlandia.models.TrackingModel;
+import ar.com.fitlandia.fitlandia.models.VueltaEnLaPlazaModel;
 import ar.com.fitlandia.fitlandia.runningok.Cronometro;
 import ar.com.fitlandia.fitlandia.runningok.LocationMonitoringService;
 import ar.com.fitlandia.fitlandia.runningok.RunningHistorialActivity;
@@ -103,7 +100,7 @@ public class Running extends AppCompatActivity {
     Thread thCronometro;
     Handler mHandler;
     NotificationManagerCompat notificationManager;
-    private TrackingModel _ultimoTrackingModel ;
+    private VueltaEnLaPlazaModel _ultimoVueltaEnLaPlazaModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -162,8 +159,8 @@ public class Running extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent myIntent = new Intent(Running.this, RunningMapActivity.class);
-                if(_ultimoTrackingModel!=null){
-                    myIntent.putExtra("id", _ultimoTrackingModel.getId()); //Optional parameters
+                if(_ultimoVueltaEnLaPlazaModel !=null){
+                    myIntent.putExtra("id", _ultimoVueltaEnLaPlazaModel.getId()); //Optional parameters
                     Running.this.startActivity(myIntent);
                 }
 
@@ -241,18 +238,33 @@ public class Running extends AppCompatActivity {
         notificationManager.cancel(123);
         progressBar.setVisibility(View.VISIBLE);
 
-        List<TrackingModel.Tracking>  posiciones = StorageOk.getPosicionesTrack();
-        TrackingModel trackingModel = new TrackingModel();
-        trackingModel.setTracking(posiciones);
+        List<VueltaEnLaPlazaModel.Tracking>  posiciones = StorageOk.getPosicionesTrack();
+        VueltaEnLaPlazaModel vueltaEnLaPlazaModel = new VueltaEnLaPlazaModel();
+
+        vueltaEnLaPlazaModel.setTracking(posiciones);
+        //vueltaEnLaPlazaModel.setInicio();
+
+        Date dtInicio = StorageOk.getHoraInicio();
+        //long fin = System.currentTimeMillis();
+        long fin = (new Date()).getTime();
+        long inicio = dtInicio.getTime();
+
+        vueltaEnLaPlazaModel.setInicio(inicio);
+        vueltaEnLaPlazaModel.setFin(fin);
+        vueltaEnLaPlazaModel.setTiempoEnSegundos( (fin-inicio)/1000 );
+
+        vueltaEnLaPlazaModel.setDistanciaEnMetros(vueltaEnLaPlazaModel.calcularDistanciaEnKm());
+        vueltaEnLaPlazaModel.setVelocidadEnMetrosSobreSegundos(vueltaEnLaPlazaModel.calcularVelocidad());
+
 
         tvEstado.setText("Sincronizando ...");
 
-        api.nuevaVueltaEnLaPlaza("fit", trackingModel).enqueue(new Callback<TrackingModel>() {
+        api.nuevaVueltaEnLaPlaza("fit", vueltaEnLaPlazaModel).enqueue(new Callback<VueltaEnLaPlazaModel>() {
             @Override
-            public void onResponse(Call<TrackingModel> call, Response<TrackingModel> response) {
+            public void onResponse(Call<VueltaEnLaPlazaModel> call, Response<VueltaEnLaPlazaModel> response) {
                 StorageOk.removePosiciones();
                 Utils.mostrarSnackBar(running_layout, "Guardado OK");
-                _ultimoTrackingModel = response.body();
+                _ultimoVueltaEnLaPlazaModel = response.body();
 
                 btnVerRutaEnMapa.setVisibility(View.VISIBLE);
                 progressBar.setVisibility(View.INVISIBLE);
@@ -260,7 +272,7 @@ public class Running extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<TrackingModel> call, Throwable t) {
+            public void onFailure(Call<VueltaEnLaPlazaModel> call, Throwable t) {
                 Utils.mostrarSnackBar(running_layout, "Error al guardar en server");
                 progressBar.setVisibility(View.INVISIBLE);
                 tvEstado.setText("Detenido");
