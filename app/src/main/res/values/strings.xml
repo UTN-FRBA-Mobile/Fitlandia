@@ -22,4 +22,10 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_running_map">Map</string>
     <string name="historial">Historial</string>
+    <string name="galeria">Galeria</string>
+    <string name="running">Running</string>
+    <string name="peso">Peso</string>
+    <string name="nombreUsuario">Nombre</string>
+    <string name="altura">Altura</string>
+    <string name="actualizarPeso">Actualizar Peso</string>
 </resources>
