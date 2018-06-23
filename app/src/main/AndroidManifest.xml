@@ -28,6 +28,7 @@
         </activity>
         <activity android:name=".Running" />
         <activity android:name=".Selfie" />
+        <activity android:name=".LoginActivity" />
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" /> <!-- optional (needed if default theme has no action bar) -->

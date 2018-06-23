@@ -12,6 +12,10 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import ar.com.fitlandia.fitlandia.utils.Fragments.LoginFragment;
+
 import io.paperdb.Paper;
 
 
@@ -82,12 +86,23 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
+
+        Fragment fragmentSelected = null;
+        boolean fragmentTransaction = false;
+
         if (id == R.id.nav_perfil) {
             // Handle the camera action
         } else if (id == R.id.nav_historial) {
 
         } else if (id == R.id.nav_login) {
+           // fragmentSelected =  new LoginFragment();
+            //fragmentTransaction = true;
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(intent);
+        }
 
+        if(fragmentTransaction) {
+            setFragment(fragmentSelected);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -107,4 +122,18 @@ public class MainActivity extends AppCompatActivity
         Intent intent = new Intent(this, Selfie.class);
         startActivity(intent);
     }
+
+    public void setFragment(Fragment fragment){
+        setFragment(fragment, true, null);
+    }
+
+    public void setFragment(Fragment fragment, boolean toBackStack, String name ) {
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.fragment_container, fragment);
+        if(toBackStack) {
+            ft.addToBackStack(name);
+        }
+        ft.commitAllowingStateLoss();
+    }
+
 }
