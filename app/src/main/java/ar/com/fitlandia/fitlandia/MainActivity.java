@@ -12,6 +12,8 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import ar.com.fitlandia.fitlandia.rutinasok.RutinasActivity;
 import io.paperdb.Paper;
 
 
@@ -99,7 +101,8 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void goToRutinas(View v){
-        Intent intent = new Intent(this, Rutinas.class);
+        //Intent intent = new Intent(this, Rutinas.class);
+        Intent intent = new Intent(this, RutinasActivity.class);
         startActivity(intent);
     }
     public void goToRunning(View v){

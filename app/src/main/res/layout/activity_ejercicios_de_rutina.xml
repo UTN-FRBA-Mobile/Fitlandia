@@ -4,16 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/activity_ejercicios"
     android:orientation="vertical"
-    android:id="@+id/running_historial"
-    tools:context=".runningok.RunningHistorialActivity">
-
-
-
+    tools:context=".rutinasok.EjerciciosDeRutinaActivity">
 
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_running_historial"
+        android:id="@+id/rv_ejercicios"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scrollbars="vertical" />
