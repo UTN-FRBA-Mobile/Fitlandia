@@ -14,7 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import ar.com.fitlandia.fitlandia.utils.Fragments.LoginFragment;
+//import ar.com.fitlandia.fitlandia.utils.Fragments.LoginFragment;
 
 
 import ar.com.fitlandia.fitlandia.rutinasok.RutinasActivity;
@@ -101,12 +101,13 @@ public class MainActivity extends AppCompatActivity
             startActivity(intent);
         }
 
-        if(fragmentTransaction) {
+        /*if(fragmentTransaction) {
             setFragment(fragmentSelected);
-        }
+        }*/
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
+
         return true;
     }
 

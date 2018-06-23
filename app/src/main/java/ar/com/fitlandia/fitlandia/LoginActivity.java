@@ -39,12 +39,12 @@ import static android.Manifest.permission.READ_CONTACTS;
 
 
 
-public class LoginActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
+public class LoginActivity extends AppCompatActivity  {
 
     /**
      * Id to identity READ_CONTACTS permission request.
      */
-    private static final int REQUEST_READ_CONTACTS = 0;
+    //private static final int REQUEST_READ_CONTACTS = 0;
 
     /**
      * A dummy authentication store containing known user names and passwords.
@@ -72,7 +72,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderManager.Lo
         setContentView(R.layout.login);
         // Set up the login form.
         mUserView = (EditText) findViewById(R.id.txtUser);
-        populateAutoComplete();
+        //populateAutoComplete();
         api = ApiUtils.getAPIService();
 
         mPasswordView = (EditText) findViewById(R.id.txtPass);
@@ -96,15 +96,15 @@ public class LoginActivity extends AppCompatActivity implements LoaderManager.Lo
         });
 
     }
-
+/*
     private void populateAutoComplete() {
-        if (!mayRequestContacts()) {
-            return;
-        }
+        //if (!mayRequestContacts()) {
+        //    return;
+        //}
 
         getLoaderManager().initLoader(0, null, this);
-    }
-
+    }*/
+/*
     private boolean mayRequestContacts() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             return true;
@@ -125,11 +125,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderManager.Lo
             requestPermissions(new String[]{READ_CONTACTS}, REQUEST_READ_CONTACTS);
         }
         return false;
-    }
+    }*/
 
     /**
      * Callback received when a permissions request has been completed.
      */
+    /*
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
@@ -138,7 +139,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderManager.Lo
                 populateAutoComplete();
             }
         }
-    }
+    }*/
 
 
     /**
@@ -257,7 +258,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderManager.Lo
             mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
         }
     }
-
+/*
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         return new CursorLoader(this,
@@ -300,7 +301,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderManager.Lo
 
        // mEmailView.setAdapter(adapter);
     }
-
+*/
 
     private interface ProfileQuery {
         String[] PROJECTION = {
