@@ -10,6 +10,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -31,6 +32,9 @@ public class EjerciciosDeRutinaActivity extends AppCompatActivity {
     @BindView(R.id.rv_ejercicios)
     RecyclerView recyclerView;
 
+    @BindView(R.id.titulo)
+    TextView titulo;
+
     private List<EjercicioModel> _ejerciciosModel;
 
     private APIService api;
@@ -50,7 +54,9 @@ public class EjerciciosDeRutinaActivity extends AppCompatActivity {
 
         applicationGlobal = ApplicationGlobal.getInstance();
         _ejerciciosModel = applicationGlobal.getRutinaSelected().getEjercicios();
+        RutinaModel _rutinaModel = applicationGlobal.getRutinaSelected();
 
+        titulo.setText(_rutinaModel.getTitulo());
         cargarRecyclerView();
     }
 
