@@ -2,6 +2,7 @@ package ar.com.fitlandia.fitlandia;
 
 import android.Manifest;
 import android.app.ActivityManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -19,6 +20,8 @@ import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -28,19 +31,20 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import ar.com.fitlandia.fitlandia.models.TrackingModel;
+import ar.com.fitlandia.fitlandia.models.VueltaEnLaPlazaModel;
 import ar.com.fitlandia.fitlandia.runningok.Cronometro;
 import ar.com.fitlandia.fitlandia.runningok.LocationMonitoringService;
+import ar.com.fitlandia.fitlandia.runningok.RunningHistorialActivity;
 import ar.com.fitlandia.fitlandia.runningok.RunningMapActivity;
 import ar.com.fitlandia.fitlandia.runningok.StorageOk;
 import ar.com.fitlandia.fitlandia.utils.APIService;
@@ -48,6 +52,7 @@ import ar.com.fitlandia.fitlandia.utils.ApiUtils;
 import ar.com.fitlandia.fitlandia.utils.Utils;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -72,17 +77,30 @@ public class Running extends AppCompatActivity {
     @BindView(R.id.running_status) TextView tvEstado;
     @BindView(R.id.running_layout) LinearLayout running_layout;
 
+    @BindView(R.id.progressbar)
+    ProgressBar progressBar;
     @BindView(R.id.btnrunning_subir) Button btnrunning_subir;
+    @BindView(R.id.btnhistorial) Button btnhistorial;
 
-    @BindView(R.id.btnVerRutaEnMapa) Button btnVerRutaEnMapa;
+    @OnClick(R.id.btnhistorial)
+    public void verHistorial() {
+        Utils.mostrarSnackBar(running_layout, "FFFF");
+
+        Intent myIntent = new Intent(Running.this, RunningHistorialActivity.class);
+        Running.this.startActivity(myIntent);
+    }
+
+
+    @BindView(R.id.btnVerRutaEnMapa)
+    ImageView btnVerRutaEnMapa;
 
     private APIService api;
     Cronometro cronometro;
     boolean finalizado;
     Thread thCronometro;
     Handler mHandler;
-
-    private TrackingModel _ultimoTrackingModel ;
+    NotificationManagerCompat notificationManager;
+    private VueltaEnLaPlazaModel _ultimoVueltaEnLaPlazaModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,11 +108,14 @@ public class Running extends AppCompatActivity {
         setContentView(R.layout.activity_running);
         ButterKnife.bind(this);
 
+        notificationManager = NotificationManagerCompat.from(this);
 
         api = ApiUtils.getAPIService();
 
         tvCronometro.setText("00:00:00");
         mostrarIniciar();
+
+
 
         inicializarTracking();
 
@@ -121,6 +142,7 @@ public class Running extends AppCompatActivity {
 
         if(inicioGuardado!=null) {
             iniciar(null);
+
         }
         else{
             mostrarIniciar();
@@ -137,12 +159,25 @@ public class Running extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent myIntent = new Intent(Running.this, RunningMapActivity.class);
-                myIntent.putExtra("id", _ultimoTrackingModel.getId()); //Optional parameters
-                Running.this.startActivity(myIntent);
+                if(_ultimoVueltaEnLaPlazaModel !=null){
+                    myIntent.putExtra("id", _ultimoVueltaEnLaPlazaModel.getId()); //Optional parameters
+                    Running.this.startActivity(myIntent);
+                }
+
 
             }
         });
+
+
+        //si viene de la notificacoin y le dio stop
+        Intent intent = getIntent();
+        boolean detenerCronometro = intent.getBooleanExtra("EXTRA_NOTIFICATION_ID_DETENER", false);
+        if(detenerCronometro){
+            detener(null);
+        }
     }
+
+
     public void subirAlServer(){
         Intent myIntent = new Intent(Running.this, RunningMapActivity.class);
         //myIntent.putExtra("key", value); //Optional parameters
@@ -150,7 +185,14 @@ public class Running extends AppCompatActivity {
 
     }
 
+
+
     public void iniciar(View view){
+
+        if(!Utils.tieneActivadoElGePeEse(this)){
+            Utils.mostrarSnackBar(running_layout, "Debe activar el GPS");
+            return;
+        }
         //comenzarTracking();
         startStep1();
 
@@ -193,25 +235,47 @@ public class Running extends AppCompatActivity {
         stopService(new Intent(this.getApplicationContext(), LocationMonitoringService.class));
         mAlreadyStartedService = false;
 
+        notificationManager.cancel(123);
+        progressBar.setVisibility(View.VISIBLE);
 
-        List<TrackingModel.Tracking>  posiciones = StorageOk.getPosicionesTrack();
-        TrackingModel trackingModel = new TrackingModel();
-        trackingModel.setTracking(posiciones);
+        List<VueltaEnLaPlazaModel.Tracking>  posiciones = StorageOk.getPosicionesTrack();
+        VueltaEnLaPlazaModel vueltaEnLaPlazaModel = new VueltaEnLaPlazaModel();
+
+        vueltaEnLaPlazaModel.setTracking(posiciones);
+        //vueltaEnLaPlazaModel.setInicio();
+
+        Date dtInicio = StorageOk.getHoraInicio();
+        //long fin = System.currentTimeMillis();
+        long fin = (new Date()).getTime();
+        long inicio = dtInicio.getTime();
+
+        vueltaEnLaPlazaModel.setInicio(inicio);
+        vueltaEnLaPlazaModel.setFin(fin);
+        vueltaEnLaPlazaModel.setTiempoEnSegundos( (fin-inicio)/1000 );
+
+        vueltaEnLaPlazaModel.setDistanciaEnMetros(vueltaEnLaPlazaModel.calcularDistanciaEnKm());
+        vueltaEnLaPlazaModel.setVelocidadEnMetrosSobreSegundos(vueltaEnLaPlazaModel.calcularVelocidad());
 
 
-        api.nuevaVueltaEnLaPlaza("fit", trackingModel).enqueue(new Callback<TrackingModel>() {
+        tvEstado.setText("Sincronizando ...");
+
+        api.nuevaVueltaEnLaPlaza("fit", vueltaEnLaPlazaModel).enqueue(new Callback<VueltaEnLaPlazaModel>() {
             @Override
-            public void onResponse(Call<TrackingModel> call, Response<TrackingModel> response) {
+            public void onResponse(Call<VueltaEnLaPlazaModel> call, Response<VueltaEnLaPlazaModel> response) {
                 StorageOk.removePosiciones();
                 Utils.mostrarSnackBar(running_layout, "Guardado OK");
-                _ultimoTrackingModel = response.body();
+                _ultimoVueltaEnLaPlazaModel = response.body();
 
-
+                btnVerRutaEnMapa.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.INVISIBLE);
+                tvEstado.setText("Detenido");
             }
 
             @Override
-            public void onFailure(Call<TrackingModel> call, Throwable t) {
+            public void onFailure(Call<VueltaEnLaPlazaModel> call, Throwable t) {
                 Utils.mostrarSnackBar(running_layout, "Error al guardar en server");
+                progressBar.setVisibility(View.INVISIBLE);
+                tvEstado.setText("Detenido");
             }
         });
 
@@ -225,7 +289,7 @@ public class Running extends AppCompatActivity {
 
         tvCronometro.setTextColor(Color.GREEN);
         finalizado = true;
-        tvEstado.setText("Detenido ...");
+        tvEstado.setText("Detenido ");
     }
     private void mostrarDetener(){
         iniciar.setVisibility(View.INVISIBLE);
@@ -253,6 +317,54 @@ public class Running extends AppCompatActivity {
             mAlreadyStartedService = true;
             //Ends................................................
         }
+        mostrarNotificacion();
+    }
+
+    private void mostrarNotificacion(){
+/*
+        Intent intent = new Intent(this, Running.class);
+        intent.setAction("ACTION_SNOOZE");
+        intent.putExtra("EXTRA_NOTIFICATION_ID", 0);
+        PendingIntent pendingIntent =
+                PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+*/
+/*
+        Intent intent = new Intent(this, Running.class);
+        intent.putExtra("EXTRA_NOTIFICATION_ID", "OK");
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+*/
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, "CHANNEL_ID")
+                .setSmallIcon(R.drawable.ic_conejo_corredor_16)
+                .setContentTitle("Fitlandia")
+                .setContentText("Corriendo ...")
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                // Set the intent that will fire when the user taps the notification
+                .setContentIntent(getPendingIntentDetener(false))
+                .setOngoing(true)
+                .addAction(R.drawable.ic_detener_24, "Detener", getPendingIntentDetener(true))
+                .setAutoCancel(false);
+
+
+        // notificationId is a unique int for each notification that you must define
+        notificationManager.notify(123, mBuilder.build());
+    }
+
+    private PendingIntent getPendingIntentDetener(boolean detener){
+
+
+        if(detener){
+            Intent intent = new Intent(this, Running.class);
+            intent.putExtra("EXTRA_NOTIFICATION_ID_DETENER", detener);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            return PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        }else{
+            Intent intent = new Intent(this, MainActivity.class);
+            //intent.putExtra("EXTRA_NOTIFICATION_ID_DETENER", detener);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            return PendingIntent.getActivity(this, 0, intent, 0);
+        }
+
 
     }
 

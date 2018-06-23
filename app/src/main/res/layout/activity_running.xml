@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -10,16 +9,32 @@
     tools:context=".Running">
 
 
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        app:popupTheme="@style/AppTheme.PopupOverlay"
+        app:title="Runnning " />
+
+    </android.support.design.widget.AppBarLayout>
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="150dp"
         android:layout_gravity="center">
 
         <ImageButton
             android:id="@+id/running_iniciar"
             style="@style/AppTheme.running"
             android:onClick="iniciar"
-            android:src="@android:drawable/ic_media_play"
+            android:src="@drawable/ic_conejo_96"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:visibility="visible" />
 
 
@@ -27,7 +42,9 @@
             android:id="@+id/running_detener"
             style="@style/AppTheme.running"
             android:onClick="detener"
-            android:src="@android:drawable/ic_media_pause"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_conejo_corredor_96"
             android:visibility="invisible" />
 
     </FrameLayout>
@@ -65,12 +82,39 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Mapa " />
-
         <Button
+            android:id="@+id/btnhistorial"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Historial" />
+
+
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+            <ProgressBar
+                android:id="@+id/progressbar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="invisible"
+
+                />
+            <ImageView
+            android:id="@+id/btnVerRutaEnMapa"
+            android:layout_width="match_parent"
+            android:src="@drawable/ic_mapa_waypoint_96"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            />
+        </FrameLayout>
+
+        <!--<Button
             android:id="@+id/btnVerRutaEnMapa"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Ver en el mapa" />
+            android:text="Ver en el mapa" />-->
 
 
     </LinearLayout>

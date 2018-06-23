@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import ar.com.fitlandia.fitlandia.models.TrackingModel;
+import ar.com.fitlandia.fitlandia.models.VueltaEnLaPlazaModel;
 import io.paperdb.Book;
 import io.paperdb.Paper;
 
@@ -41,13 +41,13 @@ public class StorageOk {
     /*public  static void setNuevaPosicion(String n, String posicion){
         getBookRunningTrack().write(n, posicion);
     }*/
-    public  static void setNuevaPosicionTrack(String n, TrackingModel.Tracking posicion){
+    public  static void setNuevaPosicionTrack(String n, VueltaEnLaPlazaModel.Tracking posicion){
         getBookRunningTrack().write(n, posicion);
     }
 
-    public  static List<TrackingModel.Tracking> getPosicionesTrack(){
-        List<TrackingModel.Tracking> posiciones = new ArrayList<>();
-        TrackingModel.Tracking p ;
+    public  static List<VueltaEnLaPlazaModel.Tracking> getPosicionesTrack(){
+        List<VueltaEnLaPlazaModel.Tracking> posiciones = new ArrayList<>();
+        VueltaEnLaPlazaModel.Tracking p ;
         for (String key: getBookRunningTrack().getAllKeys()) {
             p = getBookRunningTrack().read(key);
             posiciones.add(p);

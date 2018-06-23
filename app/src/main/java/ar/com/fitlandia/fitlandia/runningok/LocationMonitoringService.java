@@ -20,7 +20,7 @@ import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 
-import ar.com.fitlandia.fitlandia.models.TrackingModel;
+import ar.com.fitlandia.fitlandia.models.VueltaEnLaPlazaModel;
 
 public class LocationMonitoringService extends Service implements
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
@@ -45,6 +45,11 @@ public class LocationMonitoringService extends Service implements
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+
+
+///////////////////////////////////////////
+
+
         mLocationClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
@@ -130,7 +135,7 @@ public class LocationMonitoringService extends Service implements
         //posicion = count+":"+ lat + ":" + lng;
         //posiciones.add(posicion);
 
-        TrackingModel.Tracking tracking = new TrackingModel.Tracking();
+        VueltaEnLaPlazaModel.Tracking tracking = new VueltaEnLaPlazaModel.Tracking();
         tracking.setLat(Float.parseFloat(lat));
         tracking.setLng(Float.parseFloat(lng));
         //StorageOk.setNuevaPosicion(count, posicion);

@@ -16,6 +16,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import ar.com.fitlandia.fitlandia.utils.Fragments.LoginFragment;
 
+
+import ar.com.fitlandia.fitlandia.rutinasok.RutinasActivity;
 import io.paperdb.Paper;
 
 
@@ -86,14 +88,12 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-
-        Fragment fragmentSelected = null;
-        boolean fragmentTransaction = false;
-
         if (id == R.id.nav_perfil) {
-            // Handle the camera action
+            Intent intent = new Intent(this, Perfil.class);
+            startActivity(intent);
         } else if (id == R.id.nav_historial) {
-
+            Intent intent = new Intent(this, Main_historial.class);
+            startActivity(intent);
         } else if (id == R.id.nav_login) {
            // fragmentSelected =  new LoginFragment();
             //fragmentTransaction = true;
@@ -111,7 +111,8 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void goToRutinas(View v){
-        Intent intent = new Intent(this, Rutinas.class);
+        //Intent intent = new Intent(this, Rutinas.class);
+        Intent intent = new Intent(this, RutinasActivity.class);
         startActivity(intent);
     }
     public void goToRunning(View v){

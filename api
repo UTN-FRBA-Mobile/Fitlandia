@@ -1,3 +1,7 @@
+header: 
+Content-Type: application/json
+---------------------------------------------------------
+
 #login 
 POST /login {username, password}
 
@@ -22,9 +26,12 @@ ej: user/fit/foto
 
 #lista de entrenamientos: 
 GET /user/{username}/entrenamientos
+//busca un tipo especifico
+GET /user/{username}/entrenamientos/{tipo}  
+
 
 #nuevo entrenamiento
-POST /user/{username}/entrenamientos data: {tipo: "RUN", comentario}
+POST /user/{username}/entrenamientos data: {"tipo": "RUN"}
 return {_id: tipo, fecha, comentario, usuario}
 
 

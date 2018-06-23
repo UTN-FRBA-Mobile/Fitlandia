@@ -144,7 +144,7 @@ public class Cronometro implements Runnable
 
                         Message m = new Message();
                         Bundle b = new Bundle( );
-                        if(minutos ==5){
+                        if(minutos ==15){
                             b.putString("salida", "CHAU");
                             m.setData(b);
                             escribirenUI.sendMessage(m);
