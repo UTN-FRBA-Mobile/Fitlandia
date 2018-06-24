@@ -60,7 +60,12 @@
         <activity
             android:name=".rutinasok.RutinasActivity"
             android:label="Rutinas" />
-        <activity android:name=".rutinasok.EjerciciosDeRutinaActivity"></activity>
+        <activity android:name=".rutinasok.EjerciciosDeRutinaActivity" />
+        <activity android:name=".logrosok.HistoricoLogrosActivity" />
+        <activity
+            android:name=".logrosok.verLogroActivity"
+            android:label="@string/title_activity_ver_logro"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

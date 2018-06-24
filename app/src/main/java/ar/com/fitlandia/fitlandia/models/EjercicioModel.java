@@ -1,6 +1,6 @@
 package ar.com.fitlandia.fitlandia.models;
 
-public class EjercicioModel {
+public class EjercicioModel extends ListItemModel {
 
     private int id;
     private String videoId;
@@ -10,24 +10,6 @@ public class EjercicioModel {
     private String tipo;
 
 
-    private String titulo;
-    private String descripcion;
-
-    public String getTitulo() {
-        return titulo;
-    }
-
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
-    }
-
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
     public String getVideoId() {
         return videoId;
     }

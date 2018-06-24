@@ -17,6 +17,7 @@ import android.support.v4.app.FragmentTransaction;
 //import ar.com.fitlandia.fitlandia.utils.Fragments.LoginFragment;
 
 
+import ar.com.fitlandia.fitlandia.logrosok.HistoricoLogrosActivity;
 import ar.com.fitlandia.fitlandia.rutinasok.RutinasActivity;
 import io.paperdb.Paper;
 
@@ -124,6 +125,7 @@ public class MainActivity extends AppCompatActivity
         Intent intent = new Intent(this, Selfie.class);
         startActivity(intent);
     }
+
 
     public void setFragment(Fragment fragment){
         setFragment(fragment, true, null);

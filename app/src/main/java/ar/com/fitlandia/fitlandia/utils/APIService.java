@@ -4,6 +4,7 @@ import java.util.List;
 
 import ar.com.fitlandia.fitlandia.models.FotoModel;
 import ar.com.fitlandia.fitlandia.models.LoginModel;
+import ar.com.fitlandia.fitlandia.models.LogroModel;
 import ar.com.fitlandia.fitlandia.models.VueltaEnLaPlazaModel;
 import ar.com.fitlandia.fitlandia.models.UsuarioModel;
 import okhttp3.MultipartBody;
@@ -55,6 +56,18 @@ public interface APIService {
     @PUT("user/{username}")
     Call<UsuarioModel> editarUsuario(@Path("username") String username, @Body UsuarioModel usuarioModel);
 
+
+    @POST("user/{username}/logros")
+    Call<LogroModel> nuevoLogro(@Body LogroModel logroModel);
+
+    @GET("user/{username}/logros")
+    Call<List<LogroModel>> getLogros(@Path("username") String username);
+
+    @GET("logros/{logroid}")
+    Call<LogroModel> getLogro(@Path("logroid") String logroid);
+
+    @GET("fotos/{fotoid}")
+    Call<FotoModel> getFoto(@Path("fotoid") String fotoid);
 
 
 

@@ -41,6 +41,7 @@ import com.google.android.gms.common.GoogleApiAvailability;
 import java.util.Date;
 import java.util.List;
 
+import ar.com.fitlandia.fitlandia.logrosok.HistoricoLogrosActivity;
 import ar.com.fitlandia.fitlandia.models.VueltaEnLaPlazaModel;
 import ar.com.fitlandia.fitlandia.runningok.Cronometro;
 import ar.com.fitlandia.fitlandia.runningok.LocationMonitoringService;
@@ -186,6 +187,10 @@ public class Running extends AppCompatActivity {
     }
 
 
+    public void goToHistorialLogros(View v){
+        Intent intent = new Intent(this, HistoricoLogrosActivity.class);
+        startActivity(intent);
+    }
 
     public void iniciar(View view){
 

@@ -1,6 +1,7 @@
 package ar.com.fitlandia.fitlandia.utils;
 
 import ar.com.fitlandia.fitlandia.models.EjercicioModel;
+import ar.com.fitlandia.fitlandia.models.LogroModel;
 import ar.com.fitlandia.fitlandia.models.RutinaModel;
 
 public class ApplicationGlobal
@@ -10,6 +11,7 @@ public class ApplicationGlobal
 
     private EjercicioModel ejercicioSelected;
     private RutinaModel rutinaSelected;
+    private LogroModel logroSelected;
 
     private ApplicationGlobal(){
 
@@ -35,5 +37,13 @@ public class ApplicationGlobal
 
     public void setRutinaSelected(RutinaModel rutinaSelected) {
         this.rutinaSelected = rutinaSelected;
+    }
+
+    public LogroModel getLogroSelected() {
+        return logroSelected;
+    }
+
+    public void setLogroSelected(LogroModel logroSelected) {
+        this.logroSelected = logroSelected;
     }
 }
