@@ -82,6 +82,47 @@ public class ExampleUnitTest {
         }
     }
 
+    @Test
+    public void crear_nuevo_usuario(){
+        try {
+
+            UsuarioModel usuarioModel = new UsuarioModel();
+            usuarioModel.setUsername("test123");
+            usuarioModel.setPassword("test123");
+
+            UsuarioModel usuarioNuevoModel;
+            Response<UsuarioModel> response=  api.crearUsuario(usuarioModel ).execute();
+            usuarioNuevoModel= response.body();
+            assertTrue(usuarioNuevoModel.getUsername().equalsIgnoreCase(usuarioModel.getUsername()) );
+
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            assertTrue(false);
+        }
+    }
+
+    @Test
+    public void editar_usuario_fit(){
+
+        try {
+
+            Response<UsuarioModel> response = api.getUser(defaultUsername).execute();
+            UsuarioModel usuarioModel = response.body();
+            usuarioModel.setEdad(123);
+            UsuarioModel usuarioModificadoModel;
+            Response<UsuarioModel> response2=  api.editarUsuario(usuarioModel.getUsername(), usuarioModel ).execute();
+            usuarioModificadoModel = response2.body();
+
+            assertTrue(usuarioModificadoModel.getEdad() == 123);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            assertTrue(false);
+        }
+    }
+
 
 
 

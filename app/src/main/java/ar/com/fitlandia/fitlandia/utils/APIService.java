@@ -13,6 +13,7 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
 
@@ -44,6 +45,16 @@ public interface APIService {
             @Part("nombre") RequestBody nombre,
             @Part MultipartBody.Part foto
     );
+
+
+
+    @POST("user")
+    Call<UsuarioModel> crearUsuario(@Body UsuarioModel usuarioModel);
+
+
+    @PUT("user/{username}")
+    Call<UsuarioModel> editarUsuario(@Path("username") String username, @Body UsuarioModel usuarioModel);
+
 
 
 
