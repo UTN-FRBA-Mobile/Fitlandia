@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
+import ar.com.fitlandia.fitlandia.logrosok.HistoricoLogrosActivity;
 import ar.com.fitlandia.fitlandia.runningok.RunningHistorialActivity;
 
 public class Main_historial extends AppCompatActivity {
@@ -27,7 +28,7 @@ public class Main_historial extends AppCompatActivity {
         startActivity(intent);
     }
     public void goToHistoricoFotos(View v){
-        Intent intent = new Intent(this, Galeria.class);
+        Intent intent = new Intent(this, HistoricoLogrosActivity.class);
         startActivity(intent);
     }
 }
