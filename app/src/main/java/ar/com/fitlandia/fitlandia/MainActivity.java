@@ -101,9 +101,6 @@ public class MainActivity extends AppCompatActivity
             startActivity(intent);
         }
 
-        if(fragmentTransaction) {
-            setFragment(fragmentSelected);
-        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

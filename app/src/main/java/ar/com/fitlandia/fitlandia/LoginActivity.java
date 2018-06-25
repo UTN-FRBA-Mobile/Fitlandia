@@ -5,6 +5,7 @@ import android.annotation.TargetApi;
 import android.app.LoaderManager;
 import android.content.Context;
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.content.Loader;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -36,9 +37,6 @@ import ar.com.fitlandia.fitlandia.utils.ApiUtils;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
-
-
-
 public class LoginActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
     /**
@@ -64,6 +62,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderManager.Lo
     private View mProgressView;
     private View mLoginFormView;
     private APIService api;
+    private Button GoToRegister;
 
 
     @Override
@@ -95,7 +94,21 @@ public class LoginActivity extends AppCompatActivity implements LoaderManager.Lo
             }
         });
 
+        GoToRegister = (Button) findViewById(R.id.link_to_register);
+
+        GoToRegister.setOnClickListener(new View.OnClickListener() {
+
+
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginActivity.this, Register.class);
+                startActivity(intent);}
+        });
+
     }
+
+
+
 
     private void populateAutoComplete() {
         if (!mayRequestContacts()) {
@@ -217,11 +230,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderManager.Lo
 
     }
 
-    private boolean isEmailValid(String email) {
-        //TODO: Replace this with your own logic
-        return email.contains("@");
-    }
-
     /**
      * Shows the progress UI and hides the login form.
      */
@@ -321,8 +329,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderManager.Lo
         private final String mUser;
         private final String mPassword;
 
-        UserLoginTask(String email, String password) {
-            mUser = email;
+        UserLoginTask(String user, String password) {
+            mUser = user;
             mPassword = password;
         }
 
@@ -368,5 +376,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderManager.Lo
             showProgress(false);
         }
     }
+
+
+
 }
 
