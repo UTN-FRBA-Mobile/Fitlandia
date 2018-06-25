@@ -48,9 +48,10 @@ public interface APIService {
     );
 
 
-
     @POST("user")
-    Call<UsuarioModel> crearUsuario(@Body UsuarioModel usuarioModel);
+    Call<UsuarioModel> crearUsuario(
+            @Body UsuarioModel usuarioModel
+    );
 
 
     @PUT("user/{username}")
@@ -58,7 +59,7 @@ public interface APIService {
 
 
     @POST("user/{username}/logros")
-    Call<LogroModel> nuevoLogro(@Body LogroModel logroModel);
+    Call<LogroModel> nuevoLogro(@Path("username") String username,@Body LogroModel logroModel);
 
     @GET("user/{username}/logros")
     Call<List<LogroModel>> getLogros(@Path("username") String username);

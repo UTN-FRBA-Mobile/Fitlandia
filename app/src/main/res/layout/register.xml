@@ -7,8 +7,7 @@
     <EditText android:id="@+id/txtUserName" android:layout_height="wrap_content" android:layout_width="fill_parent"
         android:hint="UserName" android:inputType="text" />
 
-    <EditText android:id="@+id/txtEmail" android:layout_marginTop="15dip" android:layout_height="wrap_content"
-        android:layout_width="fill_parent" android:hint="Email" android:inputType="textEmailAddress" />
+
 
     <EditText android:id="@+id/txtPass" android:layout_height="wrap_content"
         android:layout_width="fill_parent" android:hint="Password" android:inputType="textPassword"

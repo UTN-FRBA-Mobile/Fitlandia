@@ -104,7 +104,7 @@ public class LoginActivity extends AppCompatActivity  {
 
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(LoginActivity.this, Register.class);
+                    Intent intent = new Intent(LoginActivity.this, Register.class);
                 startActivity(intent);}
         });
 
@@ -330,8 +330,8 @@ public class LoginActivity extends AppCompatActivity  {
         private final String mUser;
         private final String mPassword;
 
-        UserLoginTask(String user, String password) {
-            mUser = user;
+        UserLoginTask(String email, String password) {
+            mUser = email;
             mPassword = password;
         }
 
