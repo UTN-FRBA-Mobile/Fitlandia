@@ -152,6 +152,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/cuello"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
+        android:onClick="actualizar"
         app:layout_constraintStart_toStartOf="parent" />
 
 </LinearLayout>
