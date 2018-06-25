@@ -89,6 +89,14 @@
             android:text="Historial" />
 
 
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/b_h_logros"
+            android:text="historial logros"
+            android:onClick="goToHistorialLogros"
+            />
+
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -109,12 +117,6 @@
             android:visibility="invisible"
             />
         </FrameLayout>
-
-        <!--<Button
-            android:id="@+id/btnVerRutaEnMapa"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Ver en el mapa" />-->
 
 
     </LinearLayout>

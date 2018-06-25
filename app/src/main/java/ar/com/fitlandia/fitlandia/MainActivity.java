@@ -14,9 +14,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import ar.com.fitlandia.fitlandia.utils.Fragments.LoginFragment;
+//import ar.com.fitlandia.fitlandia.utils.Fragments.LoginFragment;
 
 
+import ar.com.fitlandia.fitlandia.logrosok.HistoricoLogrosActivity;
 import ar.com.fitlandia.fitlandia.rutinasok.RutinasActivity;
 import io.paperdb.Paper;
 
@@ -101,9 +102,13 @@ public class MainActivity extends AppCompatActivity
             startActivity(intent);
         }
 
+        /*if(fragmentTransaction) {
+            setFragment(fragmentSelected);
+        }*/
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
+
         return true;
     }
 
@@ -120,6 +125,7 @@ public class MainActivity extends AppCompatActivity
         Intent intent = new Intent(this, Selfie.class);
         startActivity(intent);
     }
+
 
     public void setFragment(Fragment fragment){
         setFragment(fragment, true, null);

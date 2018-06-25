@@ -17,13 +17,22 @@ public class UsuarioModel {
     private String password;
     @SerializedName("peso")
     @Expose
-    private Integer peso;
+    private Float peso;
     @SerializedName("altura")
     @Expose
     private Float altura;
-    @SerializedName("foto")
+    @SerializedName("edad")
     @Expose
-    private String foto;
+    private Integer edad;
+    @SerializedName("cintura")
+    @Expose
+    private Float cintura;
+    @SerializedName("cuello")
+    @Expose
+    private Float cuello;
+    @SerializedName("cadera")
+    @Expose
+    private Float cadera;
     @SerializedName("__v")
     @Expose
     private Integer v;
@@ -52,11 +61,11 @@ public class UsuarioModel {
         this.password = password;
     }
 
-    public Integer getPeso() {
+    public Float getPeso() {
         return peso;
     }
 
-    public void setPeso(Integer peso) {
+    public void setPeso(Float peso) {
         this.peso = peso;
     }
 
@@ -68,12 +77,36 @@ public class UsuarioModel {
         this.altura = altura;
     }
 
-    public String getFoto() {
-        return foto;
+    public Integer getEdad() {
+        return edad;
     }
 
-    public void setFoto(String foto) {
-        this.foto = foto;
+    public void setEdad(Integer edad) {
+        this.edad = edad;
+    }
+
+    public Float getCintura() {
+        return cintura;
+    }
+
+    public void setCintura(Float cintura) {
+        this.cintura = cintura;
+    }
+
+    public Float getCuello() {
+        return cuello;
+    }
+
+    public void setCuello(Float cuello) {
+        this.cuello = cuello;
+    }
+
+    public Float getCadera() {
+        return cadera;
+    }
+
+    public void setCadera(Float cadera) {
+        this.cadera = cadera;
     }
 
     public Integer getV() {
