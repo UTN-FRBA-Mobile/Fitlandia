@@ -9,6 +9,9 @@ public class LoginModel {
     @SerializedName("_id")
     @Expose
     private String id;
+    @SerializedName("email")
+    @Expose
+    private String email;
     @SerializedName("username")
     @Expose
     private String username;
@@ -51,4 +54,11 @@ public class LoginModel {
         this.v = v;
     }
 
+    public String getEmail() {
+        return id;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 }

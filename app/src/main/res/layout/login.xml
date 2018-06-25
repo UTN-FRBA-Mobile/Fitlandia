@@ -17,7 +17,7 @@
         android:layout_width="wrap_content" android:text="enviar"
         android:layout_gravity="center_horizontal" android:paddingLeft="15dip" android:paddingRight="15dip" />
 
-    <TextView android:id="@+id/link_to_register"
+    <Button android:id="@+id/link_to_register"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dip"
