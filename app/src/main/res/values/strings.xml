@@ -25,9 +25,17 @@
     <string name="galeria">Galeria</string>
     <string name="running">Running</string>
     <string name="peso">Peso</string>
+    <string name="edad">Edad</string>
+
+    <string name="cintura">Cintura</string>
+
+    <string name="cuello">Cuello</string>
+    <string name="kg">en kg</string>
+    <string name="cadera">Cadera</string>
+    <string name="cm">en cms</string>
     <string name="nombreUsuario">Nombre</string>
     <string name="altura">Altura</string>
-    <string name="actualizarPeso">Actualizar Peso</string>
+    <string name="actualizar">Actualizar</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
