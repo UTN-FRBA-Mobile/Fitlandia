@@ -25,6 +25,7 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 import java.io.File;
 
 import ar.com.fitlandia.fitlandia.models.FotoModel;
+import ar.com.fitlandia.fitlandia.models.LogroModel;
 import ar.com.fitlandia.fitlandia.utils.APIService;
 import ar.com.fitlandia.fitlandia.utils.ApiUtils;
 import ar.com.fitlandia.fitlandia.utils.Utils;
@@ -47,6 +48,9 @@ public class Selfie extends AppCompatActivity {
     @BindView(R.id.act_selfie)
     LinearLayout linearLayout;
 
+    @BindView(R.id.btnAgregarComentario)
+    Button btnAgregarComentario;
+
     @BindView(R.id.selfie_estado)
     TextView estado;
 
@@ -55,6 +59,9 @@ public class Selfie extends AppCompatActivity {
 
     @BindView(R.id.imagenok)
     ImageView imagenok;
+
+    @BindView(R.id.comentario)
+    TextView comentario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +74,12 @@ public class Selfie extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 abrirCamara();
+            }
+        });
+        btnAgregarComentario.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                agregarComentario();
             }
         });
 
@@ -84,6 +97,10 @@ public class Selfie extends AppCompatActivity {
 
     }
 
+    public void agregarComentario(){
+        LogroModel lmodel = new LogroModel();
+        lmodel.setComentario(comentario.getText().toString());
+    }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {

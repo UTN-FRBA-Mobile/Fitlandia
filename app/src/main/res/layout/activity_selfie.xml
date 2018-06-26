@@ -25,16 +25,22 @@
         android:text="Prueba Camara" />
 
     <TextView
-        android:id="@+id/selfie_estado_comentario"
+        android:id="@+id/mensaje_comentario"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Comentario: " />
+
     <EditText
-        android:id="@+id/message"
+        android:id="@+id/comentario"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType=
-            "textCapSentences|textAutoCorrect" />
+        android:inputType="textCapSentences|textAutoCorrect" />
+
+    <Button
+        android:id="@+id/btnAgregarComentario"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Agregar Comentario" />
     <TextView
         android:id="@+id/selfie_estado"
         android:layout_width="match_parent"
