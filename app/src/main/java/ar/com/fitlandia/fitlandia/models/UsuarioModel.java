@@ -45,11 +45,11 @@ public class UsuarioModel {
         this.id = id;
     }
 
-    public String getUsername() {
+    public  String getUsername() {
         return username;
     }
 
-    public void setUsername(String username) {
+    public void  setUsername(String username) {
         this.username = username;
     }
 

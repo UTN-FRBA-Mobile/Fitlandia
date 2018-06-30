@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Perfil"
+    android:id="@+id/activityPerfil"
     android:orientation="vertical">
 
 
@@ -18,7 +19,7 @@
         tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="87dp"></EditText>
 
-    <TextView
+    <!--TextView
         android:id="@+id/txtEdad"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -37,7 +38,7 @@
         app:layout_constraintBottom_toTopOf="@+id/peso"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtEdad"
-        app:layout_constraintVertical_bias="0.924" />
+        app:layout_constraintVertical_bias="0.924" /-->
 
     <TextView
         android:id="@+id/txtPeso"
