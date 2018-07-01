@@ -6,13 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import ar.com.fitlandia.fitlandia.models.LoginModel;
-import ar.com.fitlandia.fitlandia.utils.Utils;
 import retrofit2.Call;
 import retrofit2.Callback;
 
