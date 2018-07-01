@@ -1,6 +1,10 @@
 package ar.com.fitlandia.fitlandia;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -14,9 +18,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.widget.ImageView;
 import android.widget.TextView;
 //import ar.com.fitlandia.fitlandia.utils.Fragments.LoginFragment;
 
+
+import com.squareup.picasso.Picasso;
+
+import java.io.ByteArrayOutputStream;
 
 import ar.com.fitlandia.fitlandia.logrosok.HistoricoLogrosActivity;
 import ar.com.fitlandia.fitlandia.models.UsuarioModel;
@@ -36,6 +45,7 @@ public class MainActivity extends AppCompatActivity
     View headerView;
     ApplicationGlobal applicationGlobal ;
     TextView menuTextoSuperior;
+    ImageView imageView;
      @Override
      protected void onCreate(Bundle savedInstanceState) {
          super.onCreate(savedInstanceState);
@@ -60,6 +70,7 @@ public class MainActivity extends AppCompatActivity
 
          headerView = navigationView.getHeaderView(0);
          menuTextoSuperior =(TextView) headerView.findViewById(R.id.menuTextoSuperior);
+         imageView = headerView.findViewById(R.id.imageView);
      }
 
     @Override
@@ -144,8 +155,24 @@ public class MainActivity extends AppCompatActivity
         if(menuTextoSuperior!=null && applicationGlobal.getUsuario()!=null){
 
             menuTextoSuperior.setText( applicationGlobal.getUsuario().getUsername());
+
+            //Picasso.get().load(applicationGlobal.getUsuario().getFotoPerfilBitmap()).into(imageView);
+            if(applicationGlobal.tieneFotoPerfil()){
+                //Picasso.get().load(applicationGlobal.getUsuario().getFotoPerfilBitmap()).into(imageView);
+                imageView.setImageBitmap(applicationGlobal.getFotoPerfilBitmap());
+                //Uri imagen = getImageUri(getApplicationContext(), applicationGlobal.getFotoPerfilBitmap());
+                //Picasso.get().load(imagen).into(imageView);
+            }
+
         }
     }
+    public Uri getImageUri(Context inContext, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
+        return Uri.parse(path);
+    }
+
 
     public void goToRutinas(View v){
         //Intent intent = new Intent(this, Rutinas.class);

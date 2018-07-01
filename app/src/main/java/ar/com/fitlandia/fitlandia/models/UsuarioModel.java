@@ -1,6 +1,10 @@
 
 package ar.com.fitlandia.fitlandia.models;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -36,6 +40,21 @@ public class UsuarioModel {
     @SerializedName("__v")
     @Expose
     private Integer v;
+
+
+
+
+    @SerializedName("foto")
+    @Expose
+    private String foto;
+
+    public String getFoto() {
+        return foto;
+    }
+
+    public void setFoto(String foto) {
+        this.foto = foto;
+    }
 
     public String getId() {
         return id;
@@ -117,4 +136,20 @@ public class UsuarioModel {
         this.v = v;
     }
 
+
+
+
+    private FotoModel fotoPerfil;
+
+    public FotoModel getFotoPerfil() {
+        return fotoPerfil;
+    }
+
+
+    public void setFotoPerfil(FotoModel fotoPerfil) {
+        this.fotoPerfil = fotoPerfil;
+
+
+
+    }
 }

@@ -28,6 +28,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import ar.com.fitlandia.fitlandia.models.FotoModel;
 import ar.com.fitlandia.fitlandia.models.UsuarioModel;
 import ar.com.fitlandia.fitlandia.runningok.StorageOk;
 import ar.com.fitlandia.fitlandia.utils.ApplicationGlobal;
@@ -214,17 +215,45 @@ public class LoginActivity extends AppCompatActivity  {
             @Override
             public void onResponse(Call<UsuarioModel> call, Response<UsuarioModel> response) {
                 if(response.isSuccessful() && response.body()!=null) {
-                    applicationGlobal.setUsuario(response.body());
+                    final UsuarioModel usuarioModel = response.body();
                     //Log.d("JJ", result.getUsername());
+                    if(usuarioModel.getFoto()!=null){
+                        api.getFoto(usuarioModel.getFoto()).enqueue(new Callback<FotoModel>() {
+                            @Override
+                            public void onResponse(Call<FotoModel> call, Response<FotoModel> responseFoto) {
+                                if(responseFoto.isSuccessful() && responseFoto.body()!=null){
+                                    usuarioModel.setFotoPerfil(responseFoto.body());
+                                    applicationGlobal.setUsuario(usuarioModel);
+                                    StorageOk.setLogin(usuarioModel);
 
-                    StorageOk.setLogin(response.body());
 
-                    Utils.newToastLarge(getApplicationContext(), "Bienvenido " + applicationGlobal.getUsuario().getUsername());
-                    finish();
+                                    Utils.newToastLarge(getApplicationContext(), "Bienvenido " + applicationGlobal.getUsuario().getUsername());
+                                    finish();
+                                }
+
+                            }
+
+                            @Override
+                            public void onFailure(Call<FotoModel> call, Throwable t) {
+                                Utils.newToastLarge(getApplicationContext(), "Error ");
+
+                            }
+                        });
+                    }else{
+                        //si no tiene foto cargo el user igual
+                        applicationGlobal.setUsuario(usuarioModel);
+                        StorageOk.setLogin(usuarioModel);
+
+
+                        Utils.newToastLarge(getApplicationContext(), "Bienvenido " + applicationGlobal.getUsuario().getUsername());
+                        finish();
+                    }
+
                     //assertTrue(result !=null);
 
                 }else{
-                   // assertTrue(false);
+                    Utils.newToastLarge(getApplicationContext(), "Usuario o contraseña inválida");
+
                 }
             }
 

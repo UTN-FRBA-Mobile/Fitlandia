@@ -1,6 +1,7 @@
 package ar.com.fitlandia.fitlandia;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -15,6 +16,7 @@ import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.QuickContactBadge;
 import android.widget.TextView;
 
@@ -28,6 +30,7 @@ import ar.com.fitlandia.fitlandia.models.FotoModel;
 import ar.com.fitlandia.fitlandia.models.LogroModel;
 import ar.com.fitlandia.fitlandia.utils.APIService;
 import ar.com.fitlandia.fitlandia.utils.ApiUtils;
+import ar.com.fitlandia.fitlandia.utils.ApplicationGlobal;
 import ar.com.fitlandia.fitlandia.utils.Utils;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -63,12 +66,15 @@ public class Selfie extends AppCompatActivity {
     @BindView(R.id.comentario)
     TextView comentario;
 
+    FotoModel fotoModel;
+    ApplicationGlobal applicationGlobal;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selfie);
 
         ButterKnife.bind(this);
+        applicationGlobal = ApplicationGlobal.getInstance();
         api = ApiUtils.getAPIService();
         btnAbrirCamara.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,6 +88,7 @@ public class Selfie extends AppCompatActivity {
                 agregarComentario();
             }
         });
+
 
     }
 
@@ -100,6 +107,25 @@ public class Selfie extends AppCompatActivity {
     public void agregarComentario(){
         LogroModel lmodel = new LogroModel();
         lmodel.setComentario(comentario.getText().toString());
+        lmodel.setFoto(fotoModel.getId());
+
+
+        api.nuevoLogro(applicationGlobal.getUsername(), lmodel).enqueue(new Callback<LogroModel>() {
+            @Override
+            public void onResponse(Call<LogroModel> call, Response<LogroModel> response) {
+                if(response.isSuccessful() && response.body()!=null){
+
+                    Utils.newToast(getApplicationContext(), "Logro guardado");
+                    finish();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LogroModel> call, Throwable t) {
+                Utils.newToast(getApplicationContext(), "Hubo un error ");
+
+            }
+        });
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -115,6 +141,9 @@ public class Selfie extends AppCompatActivity {
     }
 
     private void uploadFile(Uri fileUri) {
+
+        final ProgressDialog progressBar = Utils.getProgressBar(this, "Subiendo imagen");
+        progressBar.show();
 
         estado.setText("Subiendo ...");
         // create upload service client
@@ -159,7 +188,7 @@ public class Selfie extends AppCompatActivity {
 
 
                 estado.setText("Subido OK...");
-                FotoModel fotoModel =  response.body();
+                fotoModel =  response.body();
                 urlfoto.setText(fotoModel.getUrl());
 
                 String base64String = fotoModel.getBase64();
@@ -170,13 +199,16 @@ public class Selfie extends AppCompatActivity {
 
                 imagenok.setImageBitmap(decodedByte);
 
-                Utils.mostrarSnackBar(linearLayout, "Guardado en MongoDB!");
+                btnAgregarComentario.setVisibility(View.VISIBLE);
+                progressBar.dismiss();
+                //Utils.mostrarSnackBar(linearLayout, "Guardado en MongoDB!");
             }
-
             @Override
             public void onFailure(Call<FotoModel> call, Throwable t) {
                 Log.e("Upload error:", t.getMessage());
                 Utils.mostrarSnackBar(linearLayout, "Hubo un error!");
+
+                progressBar.dismiss();
             }
         });
     }

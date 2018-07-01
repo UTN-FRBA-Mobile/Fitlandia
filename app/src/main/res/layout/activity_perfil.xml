@@ -141,8 +141,15 @@
         app:layout_constraintVertical_bias="0.972" />
 
     <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tomarFoto"
+        android:text="Tomar Foto"
+        />
+
+    <Button
         android:id="@+id/b_actualizarPeso"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
@@ -155,5 +162,10 @@
         app:layout_constraintHorizontal_bias="0.502"
         android:onClick="actualizar"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/fotoPerfil"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

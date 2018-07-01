@@ -1,5 +1,9 @@
 package ar.com.fitlandia.fitlandia.utils;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
+
 import ar.com.fitlandia.fitlandia.models.EjercicioModel;
 import ar.com.fitlandia.fitlandia.models.LogroModel;
 import ar.com.fitlandia.fitlandia.models.RutinaModel;
@@ -16,8 +20,30 @@ public class ApplicationGlobal
 
     private UsuarioModel usuario;
 
+
+
     public UsuarioModel getUsuario() {
         return usuario;
+    }
+
+
+    public boolean tieneFotoPerfil(){
+        return this.usuario!=null && this.usuario.getFotoPerfil()!=null;
+    }
+
+    private Bitmap fotoPerfilBitMap = null;
+
+    public Bitmap getFotoPerfilBitmap(){
+        if(fotoPerfilBitMap==null){
+            String base64String = this.usuario.getFotoPerfil().getBase64();
+            String base64Image = base64String.split(";")[1];
+
+            byte[] decodedString = Base64.decode(base64Image, Base64.DEFAULT);
+            fotoPerfilBitMap =  BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+        }
+
+        return fotoPerfilBitMap;
+
     }
 
 
