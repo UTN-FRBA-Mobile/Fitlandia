@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
+import ar.com.fitlandia.fitlandia.utils.ApplicationGlobal;
 import retrofit2.Call;
 import retrofit2.Callback;
 
@@ -30,34 +31,43 @@ public class Perfil extends AppCompatActivity {
     @BindView(R.id.cadera) EditText cadera;
     @BindView(R.id.peso) EditText peso;
     static APIService api;
-    static String defaultUsername="fit";
+    ApplicationGlobal applicationGlobal;
+    static String defaultUsername;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
+        applicationGlobal = ApplicationGlobal.getInstance();
+        defaultUsername=applicationGlobal.getUsername();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_perfil);
         ButterKnife.bind(this);
         api = ApiUtils.getAPIService();
         //TODO traer los datos del usuario logueado antes de modificarlos
-        api.getUser("fit").enqueue(new Callback<UsuarioModel>() {
+        api.getUser(defaultUsername).enqueue(new Callback<UsuarioModel>() {
             @Override
             public void onResponse(Call<UsuarioModel> call, Response<UsuarioModel> response) {
                 if (response.isSuccessful()) {
                     EditText inputName = (EditText) findViewById(R.id.EditTextName);
-                    inputName.setText(response.body().getUsername());
+                    if( response.body().getUsername()!=null)
+                        inputName.setText(response.body().getUsername().toString());
                     EditText inputpeso = (EditText) findViewById(R.id.peso);
-                    inputpeso.setText(response.body().getPeso().toString());
+                    if( response.body().getPeso()!=null)
+                        inputpeso.setText(response.body().getPeso().toString());
+
                     EditText inputaltura = (EditText) findViewById(R.id.altura);
-                    inputaltura.setText(response.body().getAltura().toString());
+                    if( response.body().getAltura()!=null)
+                        inputaltura.setText(response.body().getAltura().toString());
+
                     EditText inputcintura = (EditText) findViewById(R.id.cintura);
-                    inputcintura.setText(response.body().getCintura().toString());
+                    if( response.body().getCintura()!=null)
+                        inputcintura.setText(response.body().getCintura().toString());
                     EditText inputcuello = (EditText) findViewById(R.id.cuello);
-                    inputcuello.setText(response.body().getCuello().toString());
+                    if( response.body().getCuello()!=null)
+                        inputcuello.setText(response.body().getCuello().toString());
                     EditText inputcadera = (EditText) findViewById(R.id.cadera);
-                    inputcadera.setText(response.body().getCadera().toString());
-
-
+                    if( response.body().getCadera()!=null)
+                        inputcadera.setText(response.body().getCadera().toString());
                 }
+
             }
 
             @Override
@@ -68,49 +78,48 @@ public class Perfil extends AppCompatActivity {
         });
     }
 
-        public void actualizar (View v) throws IOException {
-            api = ApiUtils.getAPIService();
-            UsuarioModel usuarioModel = new UsuarioModel();
+    public void actualizar (View v) throws IOException {
+        api = ApiUtils.getAPIService();
+        UsuarioModel usuarioModel = new UsuarioModel();
 
         //TODO cambiar fit por el usuario logueado
 
-            usuarioModel.setUsername("fit");
-            usuarioModel.setPassword("fit");
-            //usuarioModel.setUsername(nombre.getText().toString());
+        usuarioModel.setUsername(defaultUsername);
+        // usuarioModel.setPassword("fit");
+        //usuarioModel.setUsername(nombre.getText().toString());
 
 
-            usuarioModel.setAltura(Float.parseFloat(altura.getText().toString()));
-            usuarioModel.setCintura(Float.parseFloat(cintura.getText().toString()));
-            usuarioModel.setCuello(Float.parseFloat(cuello.getText().toString()));
-            usuarioModel.setCadera(Float.parseFloat(cadera.getText().toString()));
-            usuarioModel.setPeso(Float.parseFloat(peso.getText().toString()));
+        usuarioModel.setAltura(Float.parseFloat(altura.getText().toString()));
+        usuarioModel.setCintura(Float.parseFloat(cintura.getText().toString()));
+        usuarioModel.setCuello(Float.parseFloat(cuello.getText().toString()));
+        usuarioModel.setCadera(Float.parseFloat(cadera.getText().toString()));
+        usuarioModel.setPeso(Float.parseFloat(peso.getText().toString()));
 
-            Call<UsuarioModel> call = api.editarUsuario("fit", usuarioModel);
+        Call<UsuarioModel> call = api.editarUsuario(defaultUsername, usuarioModel);
 
-            call.enqueue(new Callback<UsuarioModel>() {
-                @Override
-                public void onResponse(Call<UsuarioModel> call,
-                                       Response<UsuarioModel> response) {
+        call.enqueue(new Callback<UsuarioModel>() {
+            @Override
+            public void onResponse(Call<UsuarioModel> call,
+                                   Response<UsuarioModel> response) {
 
-                    if (response.isSuccessful()) {
-                        UsuarioModel result = response.body();
-                        Log.d("perfil", result.getUsername());
+                if (response.isSuccessful()) {
+                    UsuarioModel result = response.body();
+                    Log.d("perfil", result.getUsername());
 
-                    } else {
-                    }
+                } else {
                 }
+            }
 
 
-                @Override
-                public void onFailure(Call<UsuarioModel> call, Throwable t) {
-                    Log.e("Upload error:", t.getMessage());
-                    //   Utils.mostrarSnackBar(linearLayout, "Hubo un error!");
-                }
-            });
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
-        }
-
-
+            @Override
+            public void onFailure(Call<UsuarioModel> call, Throwable t) {
+                Log.e("Upload error:", t.getMessage());
+                //   Utils.mostrarSnackBar(linearLayout, "Hubo un error!");
+            }
+        });
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 
+
+}
