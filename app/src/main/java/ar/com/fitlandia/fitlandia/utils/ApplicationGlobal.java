@@ -32,6 +32,10 @@ public class ApplicationGlobal
     }
 
     private Bitmap fotoPerfilBitMap = null;
+    public void vaciarFotoPerfilGuardada(){
+        fotoPerfilBitMap = null;
+    }
+
 
     public Bitmap getFotoPerfilBitmap(){
         if(fotoPerfilBitMap==null){

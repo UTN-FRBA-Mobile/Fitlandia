@@ -38,13 +38,13 @@ public class HistoricoPeso extends AppCompatActivity {
         applicationGlobal = ApplicationGlobal.getInstance();
        // api.getLogPesos(applicationGlobal.getUsername()).enqueue(new Callback<List<LogPesoModel>>() {
         List<PointValue> values = new ArrayList<PointValue>();
-        values.add(new PointValue(1, 70));
-        values.add(new PointValue(2, 72));
-        values.add(new PointValue(3, 71));
-        values.add(new PointValue(4, 69));
-        values.add(new PointValue(5, 68));
-        values.add(new PointValue(6, 67));
-        values.add(new PointValue(7, 66));
+        values.add(new PointValue(1, 20180601));
+        values.add(new PointValue(2, 20180602));
+        values.add(new PointValue(3, 20180605));
+        values.add(new PointValue(4, 20180611));
+        values.add(new PointValue(5, 20180621));
+        values.add(new PointValue(6, 20180612));
+        values.add(new PointValue(7, 20180623));
 
         //In most cased you can call data model methods in builder-pattern-like manner.
         Line line = new Line(values).setColor(Color.rgb(199, 0, 57  )).setCubic(true);
