@@ -105,8 +105,11 @@ public class Perfil extends AppCompatActivity {
 
         });
 
-        if(applicationGlobal.tieneFotoPerfil())
+        if(applicationGlobal.tieneFotoPerfil()){
             fotoPerfil.setImageBitmap(applicationGlobal.getFotoPerfilBitmap());
+            fotoModel = applicationGlobal.getUsuario().getFotoPerfil();
+        }
+
     }
 
     public void abrirCamara(){
@@ -179,6 +182,7 @@ public class Perfil extends AppCompatActivity {
                                    Response<FotoModel> response) {
 
 
+
                 fotoModel =  response.body();
                 //urlfoto.setText(fotoModel.getUrl());
 
@@ -205,12 +209,13 @@ public class Perfil extends AppCompatActivity {
 
     public void actualizar (View v) throws IOException {
         api = ApiUtils.getAPIService();
-        //UsuarioModel usuarioModel = new UsuarioModel();
-        UsuarioModel usuarioModel  = applicationGlobal.getUsuario();
+        UsuarioModel usuarioModel = new UsuarioModel();
+        //UsuarioModel usuarioModel  = applicationGlobal.getUsuario();
 
         //TODO cambiar fit por el usuario logueado
 
         usuarioModel.setUsername(defaultUsername);
+        usuarioModel.setPassword(applicationGlobal.getUsuario().getPassword());
         // usuarioModel.setPassword("fit");
         //usuarioModel.setUsername(nombre.getText().toString());
 
@@ -236,11 +241,15 @@ public class Perfil extends AppCompatActivity {
                     Log.d("perfil", usuario.getUsername());
 
                     usuario.setFotoPerfil(fotoModel);
+
+
+                    applicationGlobal.vaciarFotoPerfilGuardada();
                     StorageOk.setLogin(usuario);
 
                     applicationGlobal.setUsuario(usuario);
                     progressDialog.dismiss();
                     Utils.newToast(getApplicationContext(), "Guardado ok");
+                    finish();
 
                 } else {
                     progressDialog.dismiss();
@@ -252,11 +261,11 @@ public class Perfil extends AppCompatActivity {
             public void onFailure(Call<UsuarioModel> call, Throwable t) {
                 Log.e("Upload error:", t.getMessage());
                 progressDialog.dismiss();
-                //   Utils.mostrarSnackBar(linearLayout, "Hubo un error!");
+                Utils.newToast(getApplicationContext(), "Hubo un error");
             }
         });
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
+        //Intent intent = new Intent(this, MainActivity.class);
+        //startActivity(intent);
     }
 
 
