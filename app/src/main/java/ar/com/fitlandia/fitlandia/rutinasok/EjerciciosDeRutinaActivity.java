@@ -17,6 +17,7 @@ import java.util.List;
 import ar.com.fitlandia.fitlandia.R;
 import ar.com.fitlandia.fitlandia.Rutinas;
 import ar.com.fitlandia.fitlandia.models.EjercicioModel;
+import ar.com.fitlandia.fitlandia.models.LogRutinaModel;
 import ar.com.fitlandia.fitlandia.models.RutinaModel;
 import ar.com.fitlandia.fitlandia.models.RutinasModel;
 import ar.com.fitlandia.fitlandia.utils.APIService;
@@ -24,6 +25,9 @@ import ar.com.fitlandia.fitlandia.utils.ApiUtils;
 import ar.com.fitlandia.fitlandia.utils.ApplicationGlobal;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class EjerciciosDeRutinaActivity extends AppCompatActivity {
 
@@ -40,7 +44,7 @@ public class EjerciciosDeRutinaActivity extends AppCompatActivity {
     private APIService api;
     RecyclerViewAdapterEjercicios adapter;
     ApplicationGlobal applicationGlobal;
-
+    RutinaModel _rutinaModel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,7 +58,7 @@ public class EjerciciosDeRutinaActivity extends AppCompatActivity {
 
         applicationGlobal = ApplicationGlobal.getInstance();
         _ejerciciosModel = applicationGlobal.getRutinaSelected().getEjercicios();
-        RutinaModel _rutinaModel = applicationGlobal.getRutinaSelected();
+        _rutinaModel = applicationGlobal.getRutinaSelected();
 
         titulo.setText(_rutinaModel.getTitulo());
         cargarRecyclerView();
@@ -71,11 +75,30 @@ public class EjerciciosDeRutinaActivity extends AppCompatActivity {
             @Override
             public void onItemClick(View view, int position) {
 
-                EjercicioModel ejercicioModel = adapter.getItem(position);
-                Intent myIntent = new Intent(_this, Rutinas.class);
-                //myIntent.putExtra("rutina_id", rutinaModel.getId()); //Optional parameters
-                applicationGlobal.setEjercicioSelected(ejercicioModel);
-                _this.startActivity(myIntent);
+                final EjercicioModel ejercicioModel = adapter.getItem(position);
+
+                LogRutinaModel logRutinaModel = new LogRutinaModel();
+                logRutinaModel.setTexto(_rutinaModel.getTitulo() + ": " + ejercicioModel.getTitulo()  );
+
+                api.nuevoLogRutina(applicationGlobal.getUsername(),logRutinaModel ).enqueue(new Callback<LogRutinaModel>() {
+                    @Override
+                    public void onResponse(Call<LogRutinaModel> call, Response<LogRutinaModel> response) {
+                        if(response.isSuccessful() && response.body()!=null){
+
+
+                            Intent myIntent = new Intent(_this, Rutinas.class);
+                            //myIntent.putExtra("rutina_id", rutinaModel.getId()); //Optional parameters
+                            applicationGlobal.setEjercicioSelected(ejercicioModel);
+                            _this.startActivity(myIntent);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<LogRutinaModel> call, Throwable t) {
+
+                    }
+                });
+
 
 
 
