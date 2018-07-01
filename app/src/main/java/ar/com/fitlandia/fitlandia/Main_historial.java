@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
+import ar.com.fitlandia.fitlandia.historicoRutinas.HistoricoRutinas;
 import ar.com.fitlandia.fitlandia.logrosok.HistoricoLogrosActivity;
 import ar.com.fitlandia.fitlandia.runningok.RunningHistorialActivity;
 

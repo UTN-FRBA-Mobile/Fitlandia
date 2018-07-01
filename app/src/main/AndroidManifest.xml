@@ -68,7 +68,7 @@
             android:label="@string/title_activity_ver_logro"
             android:theme="@style/AppTheme"></activity>
         <activity android:name=".Main_historial" />
-        <activity android:name=".HistoricoRutinas" />
+        <activity android:name=".historicoRutinas.HistoricoRutinas" />
         <activity android:name=".HistoricoPeso" />
         <activity android:name=".Perfil"></activity>
     </application>

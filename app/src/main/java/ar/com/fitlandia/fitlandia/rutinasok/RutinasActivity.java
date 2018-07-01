@@ -23,6 +23,7 @@ import ar.com.fitlandia.fitlandia.utils.ApplicationGlobal;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+
 public class RutinasActivity extends AppCompatActivity {
 
     @BindView(R.id.activity_rutinas)
