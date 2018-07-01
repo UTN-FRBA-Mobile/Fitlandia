@@ -8,6 +8,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import ar.com.fitlandia.fitlandia.runningok.StorageOk;
 import ar.com.fitlandia.fitlandia.utils.ApiUtils;
 import ar.com.fitlandia.fitlandia.utils.ApplicationGlobal;
 import ar.com.fitlandia.fitlandia.utils.Utils;
@@ -75,9 +76,10 @@ public class Register extends AppCompatActivity {
                                    Response<UsuarioModel> response) {
                 if(response.isSuccessful() && response.body()!=null) {
                     applicationGlobal.setUsuario(response.body());
+                    StorageOk.setLogin(response.body());
                     Utils.newToast(getApplicationContext(), "Usuario creado correctamente");
                     //Log.d("JJ", result.getUsername());
-                    Intent intent = new Intent(Register.this, LoginActivity.class);
+                    Intent intent = new Intent(Register.this, Perfil.class);
                     startActivity(intent);
                     finish();
 

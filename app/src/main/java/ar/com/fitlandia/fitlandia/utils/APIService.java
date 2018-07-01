@@ -3,6 +3,7 @@ package ar.com.fitlandia.fitlandia.utils;
 import java.util.List;
 
 import ar.com.fitlandia.fitlandia.models.FotoModel;
+import ar.com.fitlandia.fitlandia.models.LogPesoModel;
 import ar.com.fitlandia.fitlandia.models.LogRutinaModel;
 import ar.com.fitlandia.fitlandia.models.LoginModel;
 import ar.com.fitlandia.fitlandia.models.LogroModel;
@@ -78,6 +79,13 @@ public interface APIService {
 
     @POST("user/{username}/entrenamientos/rutinas")
     Call<LogRutinaModel> nuevoLogRutina(@Path("username") String username, @Body LogRutinaModel logRutinaModel);
+
+
+    @GET("user/{username}/peso")
+    Call<List<LogRutinaModel>> getLogPesos(@Path("username")String username);
+
+    @POST("user/{username}/peso")
+    Call<LogPesoModel> nuevoLogPeso(@Path("username") String username, @Body LogPesoModel logPesoModel);
 
 
 }
