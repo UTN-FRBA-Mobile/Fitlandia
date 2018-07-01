@@ -14,11 +14,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.widget.TextView;
 //import ar.com.fitlandia.fitlandia.utils.Fragments.LoginFragment;
 
 
 import ar.com.fitlandia.fitlandia.logrosok.HistoricoLogrosActivity;
+import ar.com.fitlandia.fitlandia.models.UsuarioModel;
+import ar.com.fitlandia.fitlandia.runningok.StorageOk;
 import ar.com.fitlandia.fitlandia.rutinasok.RutinasActivity;
+import ar.com.fitlandia.fitlandia.utils.ApplicationGlobal;
 import io.paperdb.Paper;
 
 
@@ -27,6 +31,11 @@ public class MainActivity extends AppCompatActivity
     Button Rutinas;
     Button Running;
     Button Selfie;
+    DrawerLayout drawer;
+    NavigationView navigationView;
+    View headerView;
+    ApplicationGlobal applicationGlobal ;
+    TextView menuTextoSuperior;
      @Override
      protected void onCreate(Bundle savedInstanceState) {
          super.onCreate(savedInstanceState);
@@ -34,18 +43,23 @@ public class MainActivity extends AppCompatActivity
          Paper.init(getApplicationContext());
          Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
          setSupportActionBar(toolbar);
+         applicationGlobal  = ApplicationGlobal.getInstance();
+
+         UsuarioModel usuarioModel = StorageOk.getLogin();
+         if(usuarioModel!=null)
+             applicationGlobal.setUsuario(usuarioModel);
 
 
-
-         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
          ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                  this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
          drawer.addDrawerListener(toggle);
          toggle.syncState();
-
-         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+         navigationView = (NavigationView) findViewById(R.id.nav_view);
          navigationView.setNavigationItemSelectedListener(this);
 
+         headerView = navigationView.getHeaderView(0);
+         menuTextoSuperior =(TextView) headerView.findViewById(R.id.menuTextoSuperior);
      }
 
     @Override
@@ -100,7 +114,14 @@ public class MainActivity extends AppCompatActivity
             //fragmentTransaction = true;
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(intent);
+            //finish();
+        }else if(id == R.id.nav_logout){
+            StorageOk.removeLogin();
+            applicationGlobal.setUsuario(null);
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(intent);
         }
+
 
         /*if(fragmentTransaction) {
             setFragment(fragmentSelected);
@@ -110,6 +131,20 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
 
         return true;
+    }
+    @Override
+    public void onResume()
+    {  // After a pause OR at startup
+        super.onResume();
+        //Refresh your stuff here
+        recargarMenu();
+    }
+
+    private void recargarMenu() {
+        if(menuTextoSuperior!=null && applicationGlobal.getUsuario()!=null){
+
+            menuTextoSuperior.setText( applicationGlobal.getUsuario().getUsername());
+        }
     }
 
     public void goToRutinas(View v){

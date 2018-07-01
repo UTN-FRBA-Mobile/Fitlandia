@@ -63,7 +63,7 @@ public class HistoricoLogrosActivity extends AppCompatActivity {
 
         final ProgressDialog progressDialog = Utils.getProgressBar(this, "Cargando EntrenamientoModel");
         progressDialog.show();
-        api.getLogros("fit").enqueue(new Callback<List<LogroModel>>() {
+        api.getLogros(applicationGlobal.getUsername()).enqueue(new Callback<List<LogroModel>>() {
             @Override
             public void onResponse(Call<List<LogroModel>> call, Response<List<LogroModel>> response) {
                 if(response.isSuccessful()){

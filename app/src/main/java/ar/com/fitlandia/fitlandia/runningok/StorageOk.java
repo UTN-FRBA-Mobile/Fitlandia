@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import ar.com.fitlandia.fitlandia.models.UsuarioModel;
 import ar.com.fitlandia.fitlandia.models.VueltaEnLaPlazaModel;
 import io.paperdb.Book;
 import io.paperdb.Paper;
@@ -54,6 +55,17 @@ public class StorageOk {
         }
         return posiciones;
     }
+
+    public static void setLogin(UsuarioModel login) {
+        getBookRunning().write("LOGIN", login);
+    }
+    public static UsuarioModel getLogin() {
+        return getBookRunning().read("LOGIN", null);
+    }
+    public static void removeLogin() {
+        getBookRunning().delete("LOGIN");
+    }
+
     /*public  static List<String> getPosiciones(){
         List<String> posiciones = new ArrayList<>();
         String p ;

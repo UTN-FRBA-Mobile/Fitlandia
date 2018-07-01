@@ -27,6 +27,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
+
+import ar.com.fitlandia.fitlandia.models.UsuarioModel;
+import ar.com.fitlandia.fitlandia.runningok.StorageOk;
+import ar.com.fitlandia.fitlandia.utils.ApplicationGlobal;
+import ar.com.fitlandia.fitlandia.utils.Utils;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -67,6 +72,8 @@ public class LoginActivity extends AppCompatActivity  {
     private APIService api;
     private Button GoToRegister;
 
+    ApplicationGlobal applicationGlobal;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +81,7 @@ public class LoginActivity extends AppCompatActivity  {
         setContentView(R.layout.login);
         // Set up the login form.
         mUserView = (EditText) findViewById(R.id.txtUser);
+        applicationGlobal = ApplicationGlobal.getInstance();
         //populateAutoComplete();
         api = ApiUtils.getAPIService();
 
@@ -104,9 +112,15 @@ public class LoginActivity extends AppCompatActivity  {
 
             @Override
             public void onClick(View v) {
-                    Intent intent = new Intent(LoginActivity.this, Register.class);
-                startActivity(intent);}
+                Intent intent = new Intent(LoginActivity.this, Register.class);
+                startActivity(intent);
+            }
         });
+
+        if(applicationGlobal.getUsuario()!=null){
+            mUserView.setText(applicationGlobal.getUsuario().getUsername());
+            mPasswordView.setText(applicationGlobal.getUsuario().getPassword());
+        }
 
     }
 /*
@@ -196,12 +210,17 @@ public class LoginActivity extends AppCompatActivity  {
         }
 
 
-        api.Login(loginModel).enqueue(new Callback<LoginModel>() {
+        api.Login(loginModel).enqueue(new Callback<UsuarioModel>() {
             @Override
-            public void onResponse(Call<LoginModel> call, Response<LoginModel> response) {
-                if(response.isSuccessful()) {
-                    LoginModel result = response.body();
-                    Log.d("JJ", result.getUsername());
+            public void onResponse(Call<UsuarioModel> call, Response<UsuarioModel> response) {
+                if(response.isSuccessful() && response.body()!=null) {
+                    applicationGlobal.setUsuario(response.body());
+                    //Log.d("JJ", result.getUsername());
+
+                    StorageOk.setLogin(response.body());
+
+                    Utils.newToastLarge(getApplicationContext(), "Bienvenido " + applicationGlobal.getUsuario().getUsername());
+                    finish();
                     //assertTrue(result !=null);
 
                 }else{
@@ -210,7 +229,7 @@ public class LoginActivity extends AppCompatActivity  {
             }
 
             @Override
-            public void onFailure(Call<LoginModel> call, Throwable t) {
+            public void onFailure(Call<UsuarioModel> call, Throwable t) {
               //  assertTrue("Error al logear:"  +t.getMessage(), false);
             }
         });

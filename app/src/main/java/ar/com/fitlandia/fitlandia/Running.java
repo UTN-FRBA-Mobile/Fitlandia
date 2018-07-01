@@ -50,6 +50,7 @@ import ar.com.fitlandia.fitlandia.runningok.RunningMapActivity;
 import ar.com.fitlandia.fitlandia.runningok.StorageOk;
 import ar.com.fitlandia.fitlandia.utils.APIService;
 import ar.com.fitlandia.fitlandia.utils.ApiUtils;
+import ar.com.fitlandia.fitlandia.utils.ApplicationGlobal;
 import ar.com.fitlandia.fitlandia.utils.Utils;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -102,6 +103,7 @@ public class Running extends AppCompatActivity {
     Handler mHandler;
     NotificationManagerCompat notificationManager;
     private VueltaEnLaPlazaModel _ultimoVueltaEnLaPlazaModel;
+    ApplicationGlobal applicationGlobal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,6 +111,7 @@ public class Running extends AppCompatActivity {
         setContentView(R.layout.activity_running);
         ButterKnife.bind(this);
 
+        applicationGlobal = ApplicationGlobal.getInstance();
         notificationManager = NotificationManagerCompat.from(this);
 
         api = ApiUtils.getAPIService();
@@ -264,7 +267,7 @@ public class Running extends AppCompatActivity {
 
         tvEstado.setText("Sincronizando ...");
 
-        api.nuevaVueltaEnLaPlaza("fit", vueltaEnLaPlazaModel).enqueue(new Callback<VueltaEnLaPlazaModel>() {
+        api.nuevaVueltaEnLaPlaza(applicationGlobal.getUsername(), vueltaEnLaPlazaModel).enqueue(new Callback<VueltaEnLaPlazaModel>() {
             @Override
             public void onResponse(Call<VueltaEnLaPlazaModel> call, Response<VueltaEnLaPlazaModel> response) {
                 StorageOk.removePosiciones();

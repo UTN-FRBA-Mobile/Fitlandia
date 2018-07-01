@@ -25,7 +25,7 @@ public interface APIService {
     Call<List<VueltaEnLaPlazaModel>> getAllVueltaEnLaPlaza(@Path("username")String username);
 
     @POST("login")
-    Call<LoginModel> Login(@Body LoginModel loginModel);
+    Call<UsuarioModel> Login(@Body LoginModel loginModel);
 
 
     @POST("user/{username}/entrenamientos/vueltaenlaplaza")

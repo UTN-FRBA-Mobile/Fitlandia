@@ -3,6 +3,7 @@ package ar.com.fitlandia.fitlandia.utils;
 import ar.com.fitlandia.fitlandia.models.EjercicioModel;
 import ar.com.fitlandia.fitlandia.models.LogroModel;
 import ar.com.fitlandia.fitlandia.models.RutinaModel;
+import ar.com.fitlandia.fitlandia.models.UsuarioModel;
 
 public class ApplicationGlobal
 {
@@ -12,6 +13,31 @@ public class ApplicationGlobal
     private EjercicioModel ejercicioSelected;
     private RutinaModel rutinaSelected;
     private LogroModel logroSelected;
+
+    private UsuarioModel usuario;
+
+    public UsuarioModel getUsuario() {
+        return usuario;
+    }
+
+
+    //si no hay user logeado devuelvo el fit default, parche temporal(?)
+    public String getUsername() {
+        if(hayUnUsuarioLogeado())
+            return usuario.getUsername();
+        else {
+            return "fit";
+        }
+
+    }
+
+    public boolean hayUnUsuarioLogeado(){
+        return getUsuario()!=null;
+    }
+
+    public void setUsuario(UsuarioModel usuario) {
+        this.usuario = usuario;
+    }
 
     private ApplicationGlobal(){
 

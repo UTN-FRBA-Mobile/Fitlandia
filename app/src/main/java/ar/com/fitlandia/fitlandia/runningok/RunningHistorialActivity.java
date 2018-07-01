@@ -18,6 +18,7 @@ import ar.com.fitlandia.fitlandia.R;
 import ar.com.fitlandia.fitlandia.models.VueltaEnLaPlazaModel;
 import ar.com.fitlandia.fitlandia.utils.APIService;
 import ar.com.fitlandia.fitlandia.utils.ApiUtils;
+import ar.com.fitlandia.fitlandia.utils.ApplicationGlobal;
 import ar.com.fitlandia.fitlandia.utils.Utils;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -31,6 +32,7 @@ public class RunningHistorialActivity extends AppCompatActivity {
     LinearLayout activity_running_historial;
     private APIService api;
     RecyclerViewAdapterRunningHistorial adapter;
+    ApplicationGlobal applicationGlobal;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,11 +40,11 @@ public class RunningHistorialActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         api = ApiUtils.getAPIService();
-
+        applicationGlobal = ApplicationGlobal.getInstance();
 
         final ProgressDialog progressDialog = Utils.getProgressBar(this, "Cargando EntrenamientoModel");
         progressDialog.show();
-        api.getAllVueltaEnLaPlaza("fit").enqueue(new Callback<List<VueltaEnLaPlazaModel>>() {
+        api.getAllVueltaEnLaPlaza(applicationGlobal.getUsername()).enqueue(new Callback<List<VueltaEnLaPlazaModel>>() {
             @Override
             public void onResponse(Call<List<VueltaEnLaPlazaModel>> call, Response<List<VueltaEnLaPlazaModel>> response) {
                 if(response.isSuccessful()){

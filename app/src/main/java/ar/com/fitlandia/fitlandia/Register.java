@@ -1,4 +1,5 @@
 package ar.com.fitlandia.fitlandia;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import ar.com.fitlandia.fitlandia.utils.ApiUtils;
+import ar.com.fitlandia.fitlandia.utils.ApplicationGlobal;
 import ar.com.fitlandia.fitlandia.utils.Utils;
 import ar.com.fitlandia.fitlandia.models.UsuarioModel;
 import retrofit2.Call;
@@ -24,11 +26,11 @@ public class Register extends AppCompatActivity {
     private EditText inputPassword;
     private TextView registerErrorMsg;
     private APIService api;
-    LinearLayout linearLayout;
+    LinearLayout layoutRegister;
 
     String usuario;
     String password;
-    String email;
+    ApplicationGlobal applicationGlobal;
 
 
     @Override
@@ -41,6 +43,8 @@ public class Register extends AppCompatActivity {
         inputPassword = (EditText) findViewById(R.id.txtPass);
         btnRegister = (Button) findViewById(R.id.btnRegister);
         registerErrorMsg = (TextView) findViewById(R.id.register_error);
+        layoutRegister = (LinearLayout) findViewById(R.id.layoutRegister);
+        applicationGlobal = ApplicationGlobal.getInstance();
 
 
         btnRegister.setOnClickListener(new View.OnClickListener() {
@@ -69,21 +73,25 @@ public class Register extends AppCompatActivity {
             @Override
             public void onResponse(Call<UsuarioModel> call,
                                    Response<UsuarioModel> response) {
+                if(response.isSuccessful() && response.body()!=null) {
+                    applicationGlobal.setUsuario(response.body());
+                    Utils.newToast(getApplicationContext(), "Usuario creado correctamente");
+                    //Log.d("JJ", result.getUsername());
+                    Intent intent = new Intent(Register.this, LoginActivity.class);
+                    startActivity(intent);
+                    finish();
 
-              //  Utils.mostrarSnackBar(linearLayout, "Guardado en MongoDB!");
-
-                if(response.isSuccessful()) {
-                    UsuarioModel result = response.body();
-                    Log.d("JJ", result.getUsername());
+                    //Utils.mostrarSnackBar(layoutRegister, "Usuario creado");
 
                 }else{
+                    Utils.mostrarSnackBar(layoutRegister, "Hubo un error!");
                 }
             }
 
             @Override
             public void onFailure(Call<UsuarioModel> call, Throwable t) {
-                Log.e("Upload error:", t.getMessage());
-                Utils.mostrarSnackBar(linearLayout, "Hubo un error!");
+                //Log.e("Upload error:", t.getMessage());
+                Utils.mostrarSnackBar(layoutRegister, "Hubo un error!");
             }
         });
 

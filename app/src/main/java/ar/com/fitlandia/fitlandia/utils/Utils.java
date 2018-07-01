@@ -9,6 +9,7 @@ import android.location.Geocoder;
 import android.location.LocationManager;
 import android.support.design.widget.Snackbar;
 import android.view.View;
+import android.widget.Toast;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -25,6 +26,15 @@ public class Utils {
         snackbar.show();
 
     }
+
+    public static void newToast(Context context, String mensaje) {
+        Toast.makeText(context, mensaje, Toast.LENGTH_SHORT).show();
+    }
+
+    public static void newToastLarge(Context context, String mensaje) {
+        Toast.makeText(context, mensaje, Toast.LENGTH_LONG).show();
+    }
+
 
     public static String fromDateToString(Date date){
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
