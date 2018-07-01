@@ -42,7 +42,7 @@ public class ExampleUnitTest {
     public void login_con_usuario_fit_es_valido() {
 
         try {
-            Response<LoginModel> result =  api.Login(loginModel).execute();
+            Response<UsuarioModel> result =  api.Login(loginModel).execute();
             assertTrue(result.body() !=null);
             assertTrue(result.body().getUsername().equalsIgnoreCase(defaultUsername));
         } catch (IOException e) {

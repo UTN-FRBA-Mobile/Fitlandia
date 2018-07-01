@@ -82,7 +82,7 @@ public interface APIService {
 
 
     @GET("user/{username}/peso")
-    Call<List<LogRutinaModel>> getLogPesos(@Path("username")String username);
+    Call<List<LogPesoModel>> getLogPesos(@Path("username")String username);
 
     @POST("user/{username}/peso")
     Call<LogPesoModel> nuevoLogPeso(@Path("username") String username, @Body LogPesoModel logPesoModel);
