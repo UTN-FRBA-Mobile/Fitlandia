@@ -29,4 +29,10 @@
 
 
     </style>
+
+
+    <style name="SplashTheme" parent="@android:style/Theme.Black.NoTitleBar.Fullscreen">
+        <!--<item name="android:windowBackground">@drawable/logo_splash</item>-->
+    </style>
+
 </resources>
