@@ -26,11 +26,13 @@
 
     <Button
         android:id="@+id/b_hist_rutinas"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="53dp"
+        android:layout_width="134dp"
+        android:layout_height="91dp"
+        android:layout_marginBottom="28dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
+        android:background="@android:color/transparent"
+        android:drawableTop="@drawable/icons8pesa64"
         android:onClick="goToHistoricoRutinas"
         android:text="@string/rutinas"
         android:textColor="@android:color/holo_red_dark"
@@ -40,45 +42,55 @@
 
     <Button
         android:id="@+id/b_hist_running"
-        android:layout_width="91dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="52dp"
+        android:layout_width="140dp"
+        android:layout_height="89dp"
+        android:layout_marginBottom="28dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
+        android:background="@android:color/transparent"
+        android:drawableTop="@drawable/icons8running64"
         android:onClick="goToHistoricoRunning"
+
         android:text="@string/running"
         android:textColor="@android:color/holo_blue_dark"
         app:layout_constraintBottom_toTopOf="@+id/b_hist_peso"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
         app:layout_constraintStart_toStartOf="parent"
         tools:ignore="MissingConstraints" />
+
     <Button
         android:id="@+id/b_hist_peso"
-        android:layout_width="91dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="52dp"
+        android:layout_width="137dp"
+        android:layout_height="88dp"
+        android:layout_marginBottom="28dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
+        android:background="@android:color/transparent"
+
+        android:drawableTop="@drawable/icons8balanza64"
         android:onClick="goToHistoricoPeso"
         android:text="@string/peso"
         android:textColor="@android:color/holo_green_dark"
         app:layout_constraintBottom_toTopOf="@+id/b_hist_fotos"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
         tools:ignore="HardcodedText,MissingConstraints" />
+
     <Button
         android:id="@+id/b_hist_fotos"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="36dp"
+        android:layout_width="129dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="16dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
+        android:background="@android:color/transparent"
+        android:drawableTop="@drawable/icons8camaralr64"
         android:onClick="goToHistoricoFotos"
         android:text="@string/galeria"
         android:textColor="@android:color/holo_orange_dark"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent" />
 </android.support.constraint.ConstraintLayout>
