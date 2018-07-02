@@ -249,6 +249,8 @@ public class Perfil extends AppCompatActivity {
                     applicationGlobal.setUsuario(usuario);
                     progressDialog.dismiss();
                     Utils.newToast(getApplicationContext(), "Guardado ok");
+                    Intent intent = new Intent(Perfil.this, MainActivity.class);
+                    startActivity(intent);
                     finish();
 
                 } else {
