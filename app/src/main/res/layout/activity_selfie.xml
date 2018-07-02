@@ -12,7 +12,7 @@
         android:id="@+id/textView2"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:text="Nuevo Logro"
+        android:text="Subí tu Logro!!! \n"
         android:textColor="@android:color/holo_orange_dark"
         android:textSize="24sp"
         android:textStyle="bold"/>
@@ -22,7 +22,7 @@
         android:id="@+id/mensaje_comentario"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Comentario: " />
+        android:text="Agrega un comentario a tu logro: " />
 
     <EditText
         android:id="@+id/comentario"
