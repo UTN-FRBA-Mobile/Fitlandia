@@ -85,7 +85,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:background="@android:color/transparent"
-        android:drawableTop="@drawable/icons8camaralr64"
+        android:drawableTop="@drawable/icons8piladefotos64"
         android:onClick="goToHistoricoFotos"
         android:text="@string/galeria"
         android:textColor="@android:color/holo_orange_dark"
